@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = null;
+    Session.CodePage = 65001;
+}
+
+@model SIST_SpaceTicket.ViewModel.ViewModelLogin
+
+@*icono de Space ticket*@
+<link href="~/SpaceTicket_LogoIcon.ico" rel="shortcut icon" type="image/x-icon" />
+
+@using (Html.BeginForm("Login", "Login", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+
+    using (Html.DevExtreme().ValidationGroup())
+    {
+        @Styles.Render("~/Content/bundle")
+        @Styles.Render("~/Content/DevExtremeBundle")
+        @Scripts.Render("~/Scripts/bundle")
+        @Scripts.Render("~/Scripts/DevExtremeBundle")
+        <link href="~/Content/index.styles.css" rel="stylesheet" />
+        <link href="~/Content/general.ingreso.css" rel="stylesheet" />
+        <link href="~/Content/ingreso.css" rel="stylesheet" />
+
+        <main class="section body-singup" id="main">
+            <div class="login_logo" onclick="animation()">
+                <img src="~/Images/SpaceTicket_Logo.png" alt="logo" class="login_logo-img" />
+            </div>
+            <div class="login_content">
+                <a href="index.xhtml" class="login_back"><i class='bx bx-arrow-back go_back'></i>Regresar</a>
+                <h1 class="login_title">Iniciar Sesión</h1>
+                <div class="login_content-container container_one">
+                    <div class="login_form section" style="display: block;">
+                        <div class="login_section" style="width: 50%;">
+                            <div class="login_icon">
+                                <i class='bx bxs-id-card'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5>@(Html.LabelFor(m => m.Correo))</h5>
+                                @(Html.DevExtreme().
+                                                 TextBoxFor(m => m.Correo).
+                                                 Name("Correo").
+                                                 ID("Correo"))
+                            </div>
+                        </div>
+                        <div class="login_section" style="width: 50%;">
+                            <div class="login_icon">
+                                <i class='bx bxs-lock-alt lock_icon'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5>@(Html.LabelFor(m => m.Contrasenna))</h5>
+                                @(Html.DevExtreme().
+                                             TextBoxFor(m => m.Contrasenna).
+                                             Mode(TextBoxMode.Password).
+                                             Name("Contrasenna").
+                                             ID("Constrasenna"))
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr style="padding-bottom: 1rem;" />
+                <div class="login_btn">
+                    @(Html.DevExtreme().
+                                Button().
+                                Text("Iniciar Sesión").
+                                OnInitialized("addClass").
+                                Type(ButtonType.Success).
+                                UseSubmitBehavior(true))
+                </div>
+                <div class="login_links section">
+                    <a href="PDF/Manual de Ayuda .pdf" download="Manual de Ayuda .pdf" class="login_link">Ayuda</a>
+                    <a href="#" class="login_link">¿Olvidó su contraseña?</a>
+                </div>
+                <hr />
+                <div class="login_register section">
+                    <p class="login_register-p">
+                        ¿No tiene una cuenta?
+                        @Html.ActionLink("Registrarse", "Index", "SignUp", null, new { @class = "register" })
+                    </p>
+                </div>
+            </div>
+        </main>
+    }
+}
+
+
+
+@if (TempData["Type"] != null)
+{
+    if (TempData["Type"].ToString() == "Fail")
+    {
+        // Se lee el contenido del TempData a una variable de Razor
+        String mensaje = TempData["Message"].ToString();
+        <script type="text/javascript">
+            $(function () {
+                try {
+                    // De esta forma se pasa una variable de Razor
+                    // a una variable en JavaScript
+                    var msg = "@(mensaje)";
+                    DevExpress.ui.notify(msg, "error", 10000);
+                } catch (err) {
+                    log.console(err)
+                }
+            })
+        </script>
+    }
+    if (TempData["Type"].ToString() == "Success")
+    {
+        // Se lee el contenido del TempData a una variable de Razor
+        String mensaje = TempData["Message"].ToString();
+        <script src="~/Scripts/sweetalert2.js"></script>
+        <script type="text/javascript">
+            Swal.fire({
+                title: 'Enhorabuena',
+                text: "@(mensaje.ToString())",
+                icon: 'success',
+                button: 'Aceptar',
+                timerProgressBar: true,
+                showConfirmButton: true,
+                position: 'center',
+                timer: 1000000
+            });
+        </script>
+    }
+
+}
+<script src="~/Scripts/scrollreveal.min.js"></script>
+<script src="~/Scripts/ingreso.js"></script>
+<script>
+    function addClass(e) {
+        e.element.addClass("button");
+        e.element.addClass("btn");
+    }
+</script>
+<script>
+    const contStar = 300;
+    const space = document.getElementsByClassName('body-singup')[0];
+    function createSpace() {
+        let stars = '';
+        for (let index = 0; index < contStar; index++) {
+            let star = document.createElement('span');
+            star.classList.add('star');
+            let top = parseInt(Math.random() * screen.height);
+            let left = parseInt(Math.random() * screen.width);
+            let padding = parseInt(Math.random() * 3);
+            star.style.top = top + 'px';
+            star.style.left = left + 'px';
+            star.style.padding = padding + 'px';
+            let random = parseInt(Math.random() * 10);
+            if (random % 2 == 0) {
+                star.classList.add('starAnimated')
+                let delay = (Math.random() * 4);
+                star.style.animationDelay = delay + 's';
+            }
+            space.appendChild(star);
+        }
+    }
+
+    window.onload = createSpace;
+</script>

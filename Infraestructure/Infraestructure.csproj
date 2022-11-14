@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{49642CF7-4BB3-4AA9-82A9-DFECE49924BF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Infraestructure</RootNamespace>
+    <AssemblyName>Infraestructure</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.14.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.14\lib\net45\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MessagingToolkit.QRCode, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MessagingToolkit.QRCode.1.3.0\lib\MessagingToolkit.QRCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Connected Services\BCCR\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Catalogo\Pais.cs" />
+    <Compile Include="Models\DataModel\MyContext.cs" />
+    <Compile Include="Models\Catalogo\Boleto.cs" />
+    <Compile Include="Models\Catalogo\Cliente.cs" />
+    <Compile Include="Models\Catalogo\DireccionEmpleado.cs" />
+    <Compile Include="Models\Catalogo\Empleado.cs" />
+    <Compile Include="Models\Catalogo\EmpleadoPerfil.cs" />
+    <Compile Include="Models\Catalogo\EmpleadoTelefono.cs" />
+    <Compile Include="Models\Catalogo\Evento.cs" />
+    <Compile Include="Models\Catalogo\Factura.cs" />
+    <Compile Include="Models\Catalogo\FacturaDetalle.cs" />
+    <Compile Include="Models\Catalogo\Lugar.cs" />
+    <Compile Include="Models\Catalogo\LugarEvento.cs" />
+    <Compile Include="Models\DataModel\ModelSpaceTicket.cs" />
+    <Compile Include="Models\Catalogo\Perfil.cs" />
+    <Compile Include="Models\Catalogo\Tarjeta.cs" />
+    <Compile Include="Models\Catalogo\TipoEvento.cs" />
+    <Compile Include="Models\Catalogo\TipoTarjeta.cs" />
+    <Compile Include="Models\Data\Hora.cs" />
+    <Compile Include="Models\Direccion\Canton.cs" />
+    <Compile Include="Models\Direccion\Distrito.cs" />
+    <Compile Include="Models\Direccion\Provincia.cs" />
+    <Compile Include="Models\MasterClass\Usuario.cs" />
+    <Compile Include="Models\Catalogo\Zona.cs" />
+    <Compile Include="Models\Seguridad\UserRoleProvider .cs" />
+    <Compile Include="Models\Service\Dolar.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IRepositoryEmpleadoTelefono.cs" />
+    <Compile Include="Repository\IRepositoryFacturaDetalle.cs" />
+    <Compile Include="Repository\IRepositoryBCCR.cs" />
+    <Compile Include="Repository\IRepositoryBoleto.cs" />
+    <Compile Include="Repository\IRepositoryCliente.cs" />
+    <Compile Include="Repository\IRepositoryDireccion.cs" />
+    <Compile Include="Repository\IRepositoryEvento.cs" />
+    <Compile Include="Repository\IRepositoryEmpleado.cs" />
+    <Compile Include="Repository\IRepositoryFactura.cs" />
+    <Compile Include="Repository\IRepositoryHora.cs" />
+    <Compile Include="Repository\IRepositoryLugar.cs" />
+    <Compile Include="Repository\IRepositoryLugarEvento.cs" />
+    <Compile Include="Repository\IRepositoryPais.cs" />
+    <Compile Include="Repository\IRepositoryEmpleadoPerfil.cs" />
+    <Compile Include="Repository\IRepositoryPerfil.cs" />
+    <Compile Include="Repository\IRepositoryTarjeta.cs" />
+    <Compile Include="Repository\IRepositoryTipoEvento.cs" />
+    <Compile Include="Repository\IRepositoryZona.cs" />
+    <Compile Include="Repository\RepositoryBCCR.cs" />
+    <Compile Include="Repository\RepositoryBoleto.cs" />
+    <Compile Include="Repository\RepositoryCliente.cs" />
+    <Compile Include="Repository\RepositoryDireccion.cs" />
+    <Compile Include="Repository\RepositoryEmpleadoPerfil.cs" />
+    <Compile Include="Repository\RepositoryEmpleadoTelefono.cs" />
+    <Compile Include="Repository\RepositoryEvento.cs" />
+    <Compile Include="Repository\RepositoryEmpleado.cs" />
+    <Compile Include="Repository\RepositoryFactura.cs" />
+    <Compile Include="Repository\RepositoryFacturaDetalle.cs" />
+    <Compile Include="Repository\RepositoryHora.cs" />
+    <Compile Include="Repository\RepositoryLugar.cs" />
+    <Compile Include="Repository\RepositoryLugarEvento.cs" />
+    <Compile Include="Repository\RepositoryPais.cs" />
+    <Compile Include="Repository\RepositoryPerfil.cs" />
+    <Compile Include="Repository\RepositoryTarjeta.cs" />
+    <Compile Include="Repository\RepositoryTipoEvento.cs" />
+    <Compile Include="Repository\RepositoryZona.cs" />
+    <Compile Include="ServicioEmail\IMailMaster.cs" />
+    <Compile Include="ServicioEmail\MailMaster.cs" />
+    <Compile Include="Utils\Enumeraciones.cs" />
+    <Compile Include="Utils\Log.cs" />
+    <Compile Include="Utils\QuickResponse.cs" />
+    <Compile Include="Utils\Validation\DateValidation.cs" />
+    <Compile Include="Utils\Validation\EmailValidation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="App_Data\hora.json" />
+    <None Include="Connected Services\BCCR\wsindicadoreseconomicos.wsdl" />
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\System.Data.DataSet.datasource" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\BCCR\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\BCCR\wsindicadoreseconomicos.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\BCCR\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\BCCR\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\BCCR\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+</Project>

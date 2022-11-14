@@ -1,0 +1,417 @@
+﻿
+@{
+    ViewData["Title"] = "Space Ticket";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Bootstrap 4 Admin &amp; Dashboard Template">
+    <meta name="author" content="Bootlab">
+
+    <title>@ViewData["Title"]</title>
+    <link href="~/Content/classic.css" rel="stylesheet" />
+    <style>
+        body {
+            opacity: 0;
+        }
+    </style>
+    <script src="~/Scripts/site.js"></script>
+    <link rel="stylesheet" href="~/Content/vendor.css" />
+    <link href="~/Content/Site2.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/chart.min.js" crossorigin="anonymous" type="text/javascript"></script>
+    <script src="~/Scripts/app.js" crossorigin="anonymous" rel="stylesheet"></script>
+    <script src="~/Scripts/dx-quill.min.js" crossorigin="anonymous" type="text/javascript"></script>
+    <link href="~/SpaceTicket_LogoIcon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link rel="stylesheet" href="~/Content/vendor.css" />
+    <link rel="stylesheet" href="~/Content/Site2.css" />
+    <link rel="stylesheet" href="~/Content/thirdparty.bundle.css" />
+
+    <link href="~/Content/devextreme/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/devextreme/dx.common.css" rel="stylesheet" />
+    <link href="~/Content/devextreme/dx.light.css" rel="stylesheet" />
+    <link href="~/Content/index.styles.css" rel="stylesheet" />
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet' />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    @Styles.Render("~/Content/bundle")
+    @Styles.Render("~/Content/DevExtremeBundle")
+    @Scripts.Render("~/Scripts/DevExtremeBundle")
+
+</head>
+<body>
+    <script src="@Url.Action("CldrData", "Home", new { t = CldrDataScriptBuilder.GetCacheParam() })"></script>
+    <div class="wrapper">
+        <nav id="sidebar" class="sidebar toggled">
+            <div class="sidebar-content ">
+                <a class="sidebar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <div class="nav-first-section">
+                        <img src="~/Images/SpaceTicket_Logo.png" alt="" class="page-logo">
+                        <h2 class="logo-title">
+                            Space <p class="gradient-text"> Ticket</p>
+                        </h2>
+                    </div>
+                </a>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-item">
+                        <a href="#catalogo" data-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false">
+                            <i class="fa-solid fa-calendar-check"></i> <span class="align-middle">Inicio</span>
+                        </a>
+                        <ul id="catalogo" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                            <li class="sidebar-item"><a class="sidebar-link" href="/Home/Index">Principal</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" href="/Home/About">Acerca de</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" href="/Home/Contact">Contacto</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" href="/Home/AutoEvaluacion">Autoevaluación</a></li>
+                        </ul>
+                    </li>
+                    <li class="sidebar-item">
+                        <a href="#servicios" data-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false">
+                            <i class="fa-solid fa-circle-question"></i>
+                            <span class="align-middle">Más información</span>
+                        </a>
+                        <ul id="servicios" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/Interes">Nuestra Misión</a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/Interes">Acerca de nosotros</a>
+                            </li>
+                        </ul>
+                    </li>
+                    @if (Session["Usuario"] != null && Session["Role"] != null)
+                    {
+
+
+                        if (Session["Role"].ToString().Equals("ADMINISTRADOR") || Session["Role"].ToString().Equals("OPERADOR"))
+                        {
+                            <li class="sidebar-item">
+                                <a href="#mantenimineto" data-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false">
+                                    <i class="fa-solid fa-wrench"></i><span class="align-middle">Mantenimiento</span>
+                                </a>
+                                <ul id="mantenimineto" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                                    <li class="sidebar-item"><a class="sidebar-link" href="/Zona/Mantenimiento">Zonas</a></li>
+                                    <li class="sidebar-item"><a class="sidebar-link" href="/Event/Mantenimiento">Eventos</a></li>
+                                    <li class="sidebar-item"><a class="sidebar-link" href="/TipoEvento/Index">Tipo de Evento</a></li>
+                                    <li class="sidebar-item"><a class="sidebar-link" href="/LugarEvento/Index">Lugar de Evento</a></li>
+                                    <li class="sidebar-item"><a class="sidebar-link" href="/Tarjeta/Index">Tarjetas</a></li>
+                                    <li class="sidebar-item"><a class="sidebar-link" href="/Usuario/IndexCliente">Clientes</a></li>
+                                    <li class="sidebar-item"><a class="sidebar-link" href="/Usuario/IndexEmpleado">Empleados</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sidebar-item">
+                                <a href="#proceso" data-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false">
+                                    <i class="fa-solid fa-gear"></i><span class="align-middle">Proceso</span>
+                                </a>
+                                <ul id="proceso" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                                    <li class="sidebar-item"><a class="sidebar-link" href="/Factura/ConsultaFactura">Consulta factura</a></li>
+                                </ul>
+                            </li>
+                        }
+                        if (Session["Role"].ToString().Equals("ADMINISTRADOR") || Session["Role"].ToString().Equals("REPORTEADOR") || Session["Role"].ToString().Equals("OPERADOR"))
+                        {
+                            <li class="sidebar-item">
+                                <a href="#reportes" data-toggle="collapse" class="sidebar-link collapsed" aria-expanded="false">
+                                    <i class="fa-solid fa-square-poll-vertical"></i><span class="align-middle">Reportes</span>
+                                </a>
+                                <ul id="reportes" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+                                    <li class="sidebar-item"><a class="sidebar-link" href="/Reporte/ReporteEventoAsientos">Reporte de Evento</a></li>
+                                    <li class="sidebar-item"><a class="sidebar-link" href="/Reporte/ReporteVentasDiarias">Reporte Ventas Diarias</a></li>
+
+                                </ul>
+                            </li>
+                        }
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/Cerrar">
+                                @*<i class="align-middle" data-feather="log-out"></i> <span class="align-middle">Salir</span>*@
+                            </a>
+                        </li>
+                    }
+                </ul>
+                @if (Session["Usuario"] == null)
+                {
+                    <div class="sidebar-bottom d-none d-lg-block">
+                        <div class="media">
+                            <i class="fa-solid fa-user log-in-icon"></i>
+                            @Html.ActionLink("Iniciar Sesión", "Index", "Login", null, new { @class = "log-in" })
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="sidebar-bottom d-none d-lg-block">
+                        <div class="media">
+                            <i class="fa-solid fa-door-open log-in-icon"></i>
+                            @Html.ActionLink("Salir", "Logout", "Login", null, new { @class = "log-in" })
+                        </div>
+                    </div>
+                }
+            </div>
+        </nav>
+
+        <div class="main" role="main">
+            <nav class="navbar navbar-expand navbar-light bg-black navbar-home">
+                <a class="sidebar-toggle d-flex mr-2">
+                    <i class="hamburger align-self-center"></i>
+                </a>
+                @*region de busqueda*@
+                <form class="form-inline d-none d-sm-inline-block">
+                    <input class="form-control form-control-no-border mr-sm-2 search-event" type="text" placeholder="Buscar Evento" aria-label=Buscar>
+                </form>
+                <!-- #region Acciones -->
+                <div class="navbar-collapse collapse" style="background: #000; z-index: 100;">
+                    <ul class="navbar-nav ml-auto">
+                        @if (Session["Usuario"] == null || Session["Role"] == null)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-toggle="dropdown">
+                                    <div class="position-relative">
+                                        <i class="fa-solid fa-user nav-user"></i>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0" aria-labelledby="messagesDropdown">
+                                    <div class="dropdown-menu-header">
+                                        <div class="position-relative">
+                                            ¡Comienza ya!
+                                        </div>
+                                    </div>
+                                    <div class="list-group">
+                                        <div class="nav-actions">
+                                            @Html.ActionLink("Iniciar Sesión", "Index", "Login", null, new { @class = "nav-log-in" })
+                                            @Html.ActionLink("Registrarse", "Index", "SignUp", null, new { @class = "nav-sign-up" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-toggle="dropdown">
+                                    <div class="position-relative">
+                                        <i class="fa-solid fa-user nav-user"></i>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0" aria-labelledby="messagesDropdown" style="width: 12rem;">
+                                    <div class="dropdown-menu-header">
+                                        <div class="position-relative">
+                                            Usuario conectado: <br>
+                                            @{
+                                                var nombre = "";
+                                                var role = Session["Role"].ToString();
+                                                if (Session["Role"].ToString().Equals("Cliente"))
+                                                {
+                                                    var user = (Infraestructure.Models.Catalogo.Cliente)Session["Usuario"];
+                                                    nombre = user.Nombre + " " + user.Apellido1;
+                                                }
+                                                else
+                                                {
+                                                    var user = (Infraestructure.Models.Catalogo.Empleado)Session["Usuario"];
+                                                    nombre = user.Nombre + " " + user.Apellido1;
+                                                }
+                                            }
+                                            @nombre <br> @role
+                                        </div>
+                                    </div>
+                                    <div class="list-group">
+                                        <div class="nav-actions" style="width: 100%;">
+                                            @if (Session["ViewRoles"] != null)
+                                            {
+                                                if (((List<String>)Session["ViewRoles"]).Count > 1)
+                                                {
+                                                    @Html.ActionLink("Cambiar Perfil", "SwtichRole", "Login", null, new { @class = "nav-log-in" })
+                                                }
+                                            }
+                                            @Html.ActionLink("Salir", "Logout", "Login", null, new { @class = "nav-sign-up" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        <li class="nav-item dropdown">
+                            <partial name="_Culture" />
+                        </li>
+
+                        <!-- #region  -->
+                        <!--<li class="nav-item dropdown">
+                            <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-toggle="dropdown" id="acciones">
+                                <i class="align-middle" data-feather="settings"></i>
+                            </a>
+
+                            <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown" aria-labelledby="acciones">
+                                <img src="~/Content/images/img/avatars/avatarUsuario.png" class="avatar img-fluid rounded-circle mr-1" alt="Usuario"> <span class="text-dark">Conectado</span>
+                            </a>
+                        </li>-->
+                        <!-- #endregion -->
+
+                    </ul>
+                </div>
+                <!-- #endregion -->
+            </nav>
+            <div class="container-fluid p-0">
+                @RenderBody()
+            </div>
+            <footer class="footer section">
+                <div class="footer_container grid">
+                    <div class="footer_content">
+                        <a href="#" class="footer_logo-content">
+                            <img src="~/Images/SpaceTicket_Logo.png" alt="" class="footer_logo" />
+                            <span>Space <span class="gradient-text">Tickect</span></span>
+                        </a>
+                        <p class="footer_description">Disfruta de los eventos que tenemos preparados para ti.</p>
+
+                        <div class="footer_social">
+                            <a href="https://www.facebook.com" class="footer_social-link">
+                                <i class='bx bxl-facebook'></i>
+                            </a>
+                            <a href="https://www.twitter.com" class="footer_social-link">
+                                <i class='bx bxl-twitter'></i>
+                            </a>
+                            <a href="https://www.instagram.com" class="footer_social-link">
+                                <i class='bx bxl-instagram'></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="footer_content">
+                        <h3 class="footer_title">Principal</h3>
+
+                        <ul class="footer_links">
+                            <li>
+                                <a href="#main" class="footer_link">Inicio</a>
+                            </li>
+                            <li>
+                                <a href="#category" class="footer_link">Categorias</a>
+                            </li>
+                            <li>
+                                <a href="#about" class="footer_link">Acerca de</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer_content">
+                        <h3 class="footer_title">Nuestro Servicio</h3>
+
+                        <ul class="footer_links">
+                            <li>
+                                <a href="ingreso.xhtml" class="footer_link">Iniciar Sesión</a>
+                            </li>
+                            <li>
+                                <a href="registro.xhtml" class="footer_link">Registrarse</a>
+                            </li>
+                            <li>
+                                <a href="PDF/Manual de Ayuda .pdf" download="Manual de Ayuda .pdf" class="footer_link">Ayuda</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer_content">
+                        <h3 class="footer_title">Nuestro Empresa</h3>
+
+                        <ul class="footer_links">
+                            <li>
+                                <a href="#" class="footer_link">Acerca de nosotros</a>
+                            </li>
+                            <li>
+                                <a href="#" class="footer_link">Contacto</a>
+                            </li>
+                            <li>
+                                <a href="#" class="footer_link">Nuestra misión</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <span class="footer_copy">&copy; @DateTime.Now.Year.ToString() Todos los derechos reservados | <b>Space Ticket</b></span>
+
+                <div class="footer-logo-container">
+                    <img src="~/Images/Rocket_button.png" alt="" class="footer_img-one" />
+                    <div class="fire">
+                        <div class="fire-left">
+                            <div class="main-fire"></div>
+                            <div class="particle-fire"></div>
+                        </div>
+                        <div class="fire-center">
+                            <div class="main-fire"></div>
+                            <div class="particle-fire"></div>
+                        </div>
+                        <div class="fire-right">
+                            <div class="main-fire"></div>
+                            <div class="particle-fire"></div>
+                        </div>
+                        <div class="fire-bottom">
+                            <div class="main-fire"></div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <a href="#main" class="scrollup" id="scroll-up">
+                <i class='bx bx-up-arrow-alt scroll-icon'></i>
+            </a>
+        </div>
+    </div>
+    @RenderSection("Scripts", false)
+
+    <script>
+        const contStar = 300;
+        const space = document.getElementsByClassName('main-first-section')[0];
+        function createSpace() {
+            let stars = '';
+            for (let index = 0; index < contStar; index++) {
+                let star = document.createElement('span');
+                star.classList.add('star');
+                let top = parseInt(Math.random() * screen.height);
+                let left = parseInt(Math.random() * screen.width);
+                let padding = parseInt(Math.random() * 3);
+                star.style.top = top + 'px';
+                star.style.left = left + 'px';
+                star.style.padding = padding + 'px';
+                let random = parseInt(Math.random() * 10);
+                if (random % 2 == 0) {
+                    star.classList.add('starAnimated')
+                    let delay = (Math.random() * 4);
+                    star.style.animationDelay = delay + 's';
+                }
+                space.appendChild(star);
+            }
+
+            document.querySelectorAll('.ticket-container').forEach(ticket => {
+                setTimeout(() => {
+                    ticket.style.opacity = '1';
+                }, parseInt(Math.random() * 8000));
+            })
+
+        }
+
+        function scrollUp() {
+            const scrollUp = document.getElementById('scroll-up');
+            if (this.scrollY >= 260)
+                scrollUp.classList.add('show-scroll');
+            else
+                scrollUp.classList.remove('show-scroll');
+        }
+        window.addEventListener('scroll', scrollUp);
+
+        window.onload = createSpace;
+
+        document.getElementsByClassName('sidebar-toggle')[0].addEventListener("click", () => {
+            document.getElementsByClassName('sidebar-toggle')[0].classList.toggle('sidebar-toggle-fixed');
+        })
+        // quitar el sidebar al cargar
+        //document.getElementById('sidebar').classList.remove('toggled');
+    </script>
+    <script src="~/Scripts/scrollreveal.min.js"></script>
+    <script>
+        const sr = ScrollReveal({
+            origin: 'top',
+            distance: '60px',
+            duration: 2000,
+            delay: 300,
+        })
+
+        sr.reveal('.footer_content', { interval: 100 });
+        sr.reveal('.footer_copy', { origin: 'bottom' });
+        sr.reveal('.event', { interval: 100 });
+        sr.reveal('.main-event', { origin: 'top' });
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\bin\Debug\ApplicationCore.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\bin\Debug\ApplicationCore.pdb
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\bin\Debug\Infraestructure.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\bin\Debug\log4net.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\bin\Debug\EntityFramework.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\bin\Debug\Infraestructure.pdb
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\bin\Debug\Infraestructure.dll.config
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\bin\Debug\log4net.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\bin\Debug\EntityFramework.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\obj\Debug\ApplicationCore.csproj.AssemblyReference.cache
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\obj\Debug\ApplicationCore.csproj.CoreCompileInputs.cache
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\obj\Debug\ApplicationCore.csproj.CopyComplete
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\obj\Debug\ApplicationCore.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\ApplicationCore\obj\Debug\ApplicationCore.pdb
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\bin\Debug\ApplicationCore.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\bin\Debug\ApplicationCore.pdb
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\bin\Debug\Infraestructure.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\bin\Debug\log4net.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\bin\Debug\EntityFramework.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\bin\Debug\MessagingToolkit.QRCode.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\bin\Debug\Infraestructure.pdb
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\bin\Debug\Infraestructure.dll.config
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\bin\Debug\log4net.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\bin\Debug\EntityFramework.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\obj\Debug\ApplicationCore.csproj.AssemblyReference.cache
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\obj\Debug\ApplicationCore.csproj.CoreCompileInputs.cache
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\obj\Debug\ApplicationCore.csproj.CopyComplete
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\obj\Debug\ApplicationCore.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\ApplicationCore\obj\Debug\ApplicationCore.pdb

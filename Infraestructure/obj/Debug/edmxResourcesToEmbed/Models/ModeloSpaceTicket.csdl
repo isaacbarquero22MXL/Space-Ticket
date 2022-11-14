@@ -1,0 +1,458 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SIST_BDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Boleto">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FechaPago" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IDEventoPrecio" Type="Int32" Nullable="false" />
+    <Property Name="IDLugar" Type="Int32" Nullable="false" />
+    <Property Name="IDCliente" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CedulaCliente" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Cliente" Relationship="Self.FK_Boleto_Cliente" FromRole="Boleto" ToRole="Cliente" />
+    <NavigationProperty Name="EventoPrecio" Relationship="Self.FK_Boleto_EventoPrecio" FromRole="Boleto" ToRole="EventoPrecio" />
+    <NavigationProperty Name="Lugar" Relationship="Self.FK_Boleto_Lugar" FromRole="Boleto" ToRole="Lugar" />
+    <NavigationProperty Name="Factura" Relationship="Self.FK_FacturaBoleto" FromRole="Boleto" ToRole="Factura" />
+  </EntityType>
+  <EntityType Name="Cliente">
+    <Key>
+      <PropertyRef Name="CodigoCliente" />
+      <PropertyRef Name="Cedula" />
+    </Key>
+    <Property Name="CodigoCliente" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Cedula" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Apellido1" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Apellido2" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FechaNac" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Correo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Contrasenna" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Nacionalidad" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Estado" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Boleto" Relationship="Self.FK_Boleto_Cliente" FromRole="Cliente" ToRole="Boleto" />
+    <NavigationProperty Name="Tarjeta" Relationship="Self.FK_Tarjeta_Cliente" FromRole="Cliente" ToRole="Tarjeta" />
+  </EntityType>
+  <EntityType Name="DireccionEmpleado">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Provincia" Type="Int32" Nullable="false" />
+    <Property Name="Canton" Type="Int32" Nullable="false" />
+    <Property Name="Distrito" Type="Int32" Nullable="false" />
+    <Property Name="IDEmpleado" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Empleado" Relationship="Self.FK_DireccionEmpleado" FromRole="DireccionEmpleado" ToRole="Empleado" />
+  </EntityType>
+  <EntityType Name="Empleado">
+    <Key>
+      <PropertyRef Name="Cedula" />
+    </Key>
+    <Property Name="Cedula" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Apellido1" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Apellido2" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Correo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Contrasenna" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Estado" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Fotografia" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <NavigationProperty Name="DireccionEmpleado" Relationship="Self.FK_DireccionEmpleado" FromRole="Empleado" ToRole="DireccionEmpleado" />
+    <NavigationProperty Name="EmpleadoPerfil" Relationship="Self.FK_EmpleadoPerfil_Empleado" FromRole="Empleado" ToRole="EmpleadoPerfil" />
+    <NavigationProperty Name="EmpleadoTelefono" Relationship="Self.FK_TelefonoEmpleado" FromRole="Empleado" ToRole="EmpleadoTelefono" />
+  </EntityType>
+  <EntityType Name="EmpleadoPerfil">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IDEmpleado" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IDPerfil" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Empleado" Relationship="Self.FK_EmpleadoPerfil_Empleado" FromRole="EmpleadoPerfil" ToRole="Empleado" />
+    <NavigationProperty Name="Perfil" Relationship="Self.FK_EmpleadoPerfil_Perfil" FromRole="EmpleadoPerfil" ToRole="Perfil" />
+  </EntityType>
+  <EntityType Name="EmpleadoTelefono">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IDEmpleado" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Telefono" Type="String" MaxLength="18" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Empleado" Relationship="Self.FK_TelefonoEmpleado" FromRole="EmpleadoTelefono" ToRole="Empleado" />
+  </EntityType>
+  <EntityType Name="Evento">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Imagen" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Hora" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Estado" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TipoEvento" Type="Int32" Nullable="false" />
+    <Property Name="LugarEvento" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="EventoPrecio" Relationship="Self.FK_EventoPrecio_Evento" FromRole="Evento" ToRole="EventoPrecio" />
+    <NavigationProperty Name="LugarEvento1" Relationship="Self.FK_LugarEvento" FromRole="Evento" ToRole="LugarEvento" />
+    <NavigationProperty Name="TipoEvento1" Relationship="Self.FK_TipoEvento" FromRole="Evento" ToRole="TipoEvento" />
+  </EntityType>
+  <EntityType Name="EventoPrecio">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Precio" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="IDZona" Type="Int32" Nullable="false" />
+    <Property Name="IDEvento" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Boleto" Relationship="Self.FK_Boleto_EventoPrecio" FromRole="EventoPrecio" ToRole="Boleto" />
+    <NavigationProperty Name="Evento" Relationship="Self.FK_EventoPrecio_Evento" FromRole="EventoPrecio" ToRole="Evento" />
+    <NavigationProperty Name="Zona" Relationship="Self.FK_EventoPrecio_Zona" FromRole="EventoPrecio" ToRole="Zona" />
+  </EntityType>
+  <EntityType Name="Factura">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FechaGeneracion" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="SubTotal" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="IVA" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Total" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="FacturaXML" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IDBoleto" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Boleto" Relationship="Self.FK_FacturaBoleto" FromRole="Factura" ToRole="Boleto" />
+  </EntityType>
+  <EntityType Name="Lugar">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NumeroAsiento" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Fila" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IDZona" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Boleto" Relationship="Self.FK_Boleto_Lugar" FromRole="Lugar" ToRole="Boleto" />
+    <NavigationProperty Name="Zona" Relationship="Self.FK_LugarZona" FromRole="Lugar" ToRole="Zona" />
+  </EntityType>
+  <EntityType Name="LugarEvento">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Evento" Relationship="Self.FK_LugarEvento" FromRole="LugarEvento" ToRole="Evento" />
+  </EntityType>
+  <EntityType Name="Perfil">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="EmpleadoPerfil" Relationship="Self.FK_EmpleadoPerfil_Perfil" FromRole="Perfil" ToRole="EmpleadoPerfil" />
+  </EntityType>
+  <EntityType Name="TipoEvento">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Evento" Relationship="Self.FK_TipoEvento" FromRole="TipoEvento" ToRole="Evento" />
+  </EntityType>
+  <EntityType Name="TipoTarjeta">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Tarjeta" Relationship="Self.FK_TipoTarjeta" FromRole="TipoTarjeta" ToRole="Tarjeta" />
+  </EntityType>
+  <EntityType Name="Zona">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="EventoPrecio" Relationship="Self.FK_EventoPrecio_Zona" FromRole="Zona" ToRole="EventoPrecio" />
+    <NavigationProperty Name="Lugar" Relationship="Self.FK_LugarZona" FromRole="Zona" ToRole="Lugar" />
+  </EntityType>
+  <EntityType Name="Tarjeta">
+    <Key>
+      <PropertyRef Name="Numero" />
+      <PropertyRef Name="MesVen" />
+      <PropertyRef Name="AnnoVen" />
+      <PropertyRef Name="CVC" />
+      <PropertyRef Name="TipoTarjeta" />
+      <PropertyRef Name="IDCliente" />
+      <PropertyRef Name="CedulaCliente" />
+    </Key>
+    <Property Name="Numero" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MesVen" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AnnoVen" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CVC" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TipoTarjeta" Type="Int32" Nullable="false" />
+    <Property Name="IDCliente" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CedulaCliente" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Cliente" Relationship="Self.FK_Tarjeta_Cliente" FromRole="Tarjeta" ToRole="Cliente" />
+    <NavigationProperty Name="TipoTarjeta1" Relationship="Self.FK_TipoTarjeta" FromRole="Tarjeta" ToRole="TipoTarjeta" />
+  </EntityType>
+  <Association Name="FK_Boleto_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+    <End Role="Boleto" Type="Self.Boleto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="CodigoCliente" />
+        <PropertyRef Name="Cedula" />
+      </Principal>
+      <Dependent Role="Boleto">
+        <PropertyRef Name="IDCliente" />
+        <PropertyRef Name="CedulaCliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Boleto_EventoPrecio">
+    <End Role="EventoPrecio" Type="Self.EventoPrecio" Multiplicity="1" />
+    <End Role="Boleto" Type="Self.Boleto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EventoPrecio">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Boleto">
+        <PropertyRef Name="IDEventoPrecio" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Boleto_Lugar">
+    <End Role="Lugar" Type="Self.Lugar" Multiplicity="1" />
+    <End Role="Boleto" Type="Self.Boleto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lugar">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Boleto">
+        <PropertyRef Name="IDLugar" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FacturaBoleto">
+    <End Role="Boleto" Type="Self.Boleto" Multiplicity="1" />
+    <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Boleto">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Factura">
+        <PropertyRef Name="IDBoleto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tarjeta_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+    <End Role="Tarjeta" Type="Self.Tarjeta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="CodigoCliente" />
+        <PropertyRef Name="Cedula" />
+      </Principal>
+      <Dependent Role="Tarjeta">
+        <PropertyRef Name="IDCliente" />
+        <PropertyRef Name="CedulaCliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DireccionEmpleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="DireccionEmpleado" Type="Self.DireccionEmpleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="Cedula" />
+      </Principal>
+      <Dependent Role="DireccionEmpleado">
+        <PropertyRef Name="IDEmpleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmpleadoPerfil_Empleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="EmpleadoPerfil" Type="Self.EmpleadoPerfil" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="Cedula" />
+      </Principal>
+      <Dependent Role="EmpleadoPerfil">
+        <PropertyRef Name="IDEmpleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TelefonoEmpleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="EmpleadoTelefono" Type="Self.EmpleadoTelefono" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="Cedula" />
+      </Principal>
+      <Dependent Role="EmpleadoTelefono">
+        <PropertyRef Name="IDEmpleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmpleadoPerfil_Perfil">
+    <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
+    <End Role="EmpleadoPerfil" Type="Self.EmpleadoPerfil" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Perfil">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EmpleadoPerfil">
+        <PropertyRef Name="IDPerfil" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EventoPrecio_Evento">
+    <End Role="Evento" Type="Self.Evento" Multiplicity="1" />
+    <End Role="EventoPrecio" Type="Self.EventoPrecio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Evento">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EventoPrecio">
+        <PropertyRef Name="IDEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LugarEvento">
+    <End Role="LugarEvento" Type="Self.LugarEvento" Multiplicity="1" />
+    <End Role="Evento" Type="Self.Evento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LugarEvento">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Evento">
+        <PropertyRef Name="LugarEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TipoEvento">
+    <End Role="TipoEvento" Type="Self.TipoEvento" Multiplicity="1" />
+    <End Role="Evento" Type="Self.Evento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoEvento">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Evento">
+        <PropertyRef Name="TipoEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EventoPrecio_Zona">
+    <End Role="Zona" Type="Self.Zona" Multiplicity="1" />
+    <End Role="EventoPrecio" Type="Self.EventoPrecio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Zona">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EventoPrecio">
+        <PropertyRef Name="IDZona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LugarZona">
+    <End Role="Zona" Type="Self.Zona" Multiplicity="1" />
+    <End Role="Lugar" Type="Self.Lugar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Zona">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Lugar">
+        <PropertyRef Name="IDZona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TipoTarjeta">
+    <End Role="TipoTarjeta" Type="Self.TipoTarjeta" Multiplicity="1" />
+    <End Role="Tarjeta" Type="Self.Tarjeta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoTarjeta">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Tarjeta">
+        <PropertyRef Name="TipoTarjeta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SpaceTicketEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Boleto" EntityType="Self.Boleto" />
+    <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+    <EntitySet Name="DireccionEmpleado" EntityType="Self.DireccionEmpleado" />
+    <EntitySet Name="Empleado" EntityType="Self.Empleado" />
+    <EntitySet Name="EmpleadoPerfil" EntityType="Self.EmpleadoPerfil" />
+    <EntitySet Name="EmpleadoTelefono" EntityType="Self.EmpleadoTelefono" />
+    <EntitySet Name="Evento" EntityType="Self.Evento" />
+    <EntitySet Name="EventoPrecio" EntityType="Self.EventoPrecio" />
+    <EntitySet Name="Factura" EntityType="Self.Factura" />
+    <EntitySet Name="Lugar" EntityType="Self.Lugar" />
+    <EntitySet Name="LugarEvento" EntityType="Self.LugarEvento" />
+    <EntitySet Name="Perfil" EntityType="Self.Perfil" />
+    <EntitySet Name="TipoEvento" EntityType="Self.TipoEvento" />
+    <EntitySet Name="TipoTarjeta" EntityType="Self.TipoTarjeta" />
+    <EntitySet Name="Zona" EntityType="Self.Zona" />
+    <EntitySet Name="Tarjeta" EntityType="Self.Tarjeta" />
+    <AssociationSet Name="FK_Boleto_Cliente" Association="Self.FK_Boleto_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Boleto" EntitySet="Boleto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Boleto_EventoPrecio" Association="Self.FK_Boleto_EventoPrecio">
+      <End Role="EventoPrecio" EntitySet="EventoPrecio" />
+      <End Role="Boleto" EntitySet="Boleto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Boleto_Lugar" Association="Self.FK_Boleto_Lugar">
+      <End Role="Lugar" EntitySet="Lugar" />
+      <End Role="Boleto" EntitySet="Boleto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FacturaBoleto" Association="Self.FK_FacturaBoleto">
+      <End Role="Boleto" EntitySet="Boleto" />
+      <End Role="Factura" EntitySet="Factura" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tarjeta_Cliente" Association="Self.FK_Tarjeta_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Tarjeta" EntitySet="Tarjeta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DireccionEmpleado" Association="Self.FK_DireccionEmpleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="DireccionEmpleado" EntitySet="DireccionEmpleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmpleadoPerfil_Empleado" Association="Self.FK_EmpleadoPerfil_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="EmpleadoPerfil" EntitySet="EmpleadoPerfil" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TelefonoEmpleado" Association="Self.FK_TelefonoEmpleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="EmpleadoTelefono" EntitySet="EmpleadoTelefono" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmpleadoPerfil_Perfil" Association="Self.FK_EmpleadoPerfil_Perfil">
+      <End Role="Perfil" EntitySet="Perfil" />
+      <End Role="EmpleadoPerfil" EntitySet="EmpleadoPerfil" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EventoPrecio_Evento" Association="Self.FK_EventoPrecio_Evento">
+      <End Role="Evento" EntitySet="Evento" />
+      <End Role="EventoPrecio" EntitySet="EventoPrecio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LugarEvento" Association="Self.FK_LugarEvento">
+      <End Role="LugarEvento" EntitySet="LugarEvento" />
+      <End Role="Evento" EntitySet="Evento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TipoEvento" Association="Self.FK_TipoEvento">
+      <End Role="TipoEvento" EntitySet="TipoEvento" />
+      <End Role="Evento" EntitySet="Evento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EventoPrecio_Zona" Association="Self.FK_EventoPrecio_Zona">
+      <End Role="Zona" EntitySet="Zona" />
+      <End Role="EventoPrecio" EntitySet="EventoPrecio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LugarZona" Association="Self.FK_LugarZona">
+      <End Role="Zona" EntitySet="Zona" />
+      <End Role="Lugar" EntitySet="Lugar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TipoTarjeta" Association="Self.FK_TipoTarjeta">
+      <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
+      <End Role="Tarjeta" EntitySet="Tarjeta" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Infraestructure.Models.Catalogo.Lugar>
+@{ var Zona = (Infraestructure.Models.Catalogo.Zona)TempData["ZonaTemporal"];}
+<h1 style="position: relative; top: 4rem; text-align:center;">@Zona.Descripcion</h1>
+<div style="justify-content: space-between; width: 80%; flex-wrap: wrap; margin: 0 auto; position: relative; top: 5rem; text-align: center;">
+    <div style="text-align: center; display: inline-block; margin: 0 1rem;">
+        <img src='https://img.icons8.com/material-rounded/24/FA0007/bus-seat-top-view.png' />
+        <h5 style="margin: .3rem 0;">Ocupado</h5>
+    </div>
+    <div style="text-align: center; display: inline-block; margin: 0 1rem;">
+        <img src='https://img.icons8.com/material-rounded/24/666666/bus-seat-top-view.png' />
+        <h5 style="margin: .3rem 0;">Disponible</h5>
+    </div>
+    <div style="text-align: center; display: inline-block; margin: 0 1rem;">
+        <img src='https://img.icons8.com/material-rounded/24/00E154/bus-seat-top-view.png' />
+        <h5 style="margin: .3rem 0;">Seleccionado</h5>
+    </div>
+</div>
+<div class="seats-container">
+    <div class="event-seats" id="event-seats">
+        @{
+            var first = Model.First();
+            var filas = 0;
+            var asientos = 0;
+            var contLetter = 0;
+            var contSeat = 0;
+            var repeticion = 0;
+            foreach (var item in Model)
+            {
+                if (first.Fila.Equals(item.Fila))
+                {
+                    repeticion++;
+                }
+            }
+
+            asientos = repeticion;
+            filas = Model.Count() / repeticion;
+            for (int i = 1; i <= filas; i++)
+            {
+                if (contLetter == Model.Count())
+                {
+                    contLetter--;
+                }
+                var LugarFila = Model.ToList()[contLetter];
+                <div>
+                    <span class="row">@LugarFila.Fila</span>
+
+                    @for (int j = 1; j <= asientos; j++)
+                    {
+                        var LugarAsiento = Model.ToList()[contSeat];
+                        if (LugarAsiento.Estado.Equals("DISPONIBLE"))
+                        {
+                            <div class="seat-number">
+                                <img src='https://img.icons8.com/material-rounded/24/666666/bus-seat-top-view.png' id="@LugarAsiento.ID" title="@LugarAsiento.Estado" />
+                                @*Html.ActionLink(j.ToString(), "Book", "Boleto", new { lugar = LugarAsiento.ID }, null)*@
+                                <a onclick="bookSeat(@LugarAsiento.ID)">@j.ToString()</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="seat-number">
+                                <img src='https://img.icons8.com/material-rounded/24/FA0007/bus-seat-top-view.png' />
+                                <span>@j</span>
+                            </div>
+                        }
+                        contSeat++;
+                    }
+                </div>
+                contLetter += asientos;
+            }
+        }
+    </div>
+</div>
+<div style="text-align: center; margin: 3rem;">
+    @Html.ActionLink("Continuar", "Index", "Factura", new {IDEvento = first.IDEvento}, new { @class = "event-button" })
+</div>

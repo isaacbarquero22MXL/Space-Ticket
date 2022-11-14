@@ -1,0 +1,277 @@
+﻿@using Infraestructure.Models.Catalogo
+@model Infraestructure.Models.Catalogo.Cliente
+@{
+    ViewBag.Title = "Mantenimietno de Cliente";
+}
+@{
+    // Datasource radio button
+    var priorityEntities = new[] {
+        new { id = "M", text = "Masculino" },
+        new { id = "F", text = "Femenino" },
+        new { id = "N", text = "Prefiero no decirlo" },
+    };
+}
+@*Script para mensajes con swal*@
+<script src="~/Scripts/sweetalert2.js"></script>
+@*GLOBALIZACION DEL LA VISTA*@
+<script src="@Url.Action("CldrData", "Home", new { t = CldrDataScriptBuilder.GetCacheParam() })"></script>
+<script src="~/Scripts/devextreme/localization/dx.messages.es.js"></script>
+
+<h2 style="text-align: center; margin: 1rem 0;">@ViewBag.Title</h2>
+
+@(Html.DevExtreme().DataGrid<Cliente>()
+    .ID("gridContainer")  //Nombre del Grid
+    .ShowBorders(true) //Muestra los bordes
+    .ColumnMinWidth(50) //Valor mínimo para las columnas de 50
+    .FilterRow(f => f.Visible(true)) //Crear filtros en la parte superior
+    .FilterPanel(f => f.Visible(true)) //Habilitar Panel de filtro
+    .HeaderFilter(f => f.Visible(true)) //Filtro en el encabezado
+    .GroupPanel(p => p.Visible(true)) //Agrupacion panel
+    .Grouping(g => g.AutoExpandAll(false)) //Agrupacion autoexpandible
+    .ColumnAutoWidth(true) //AutoIncrementar tamaño de las columnas
+    .RemoteOperations(true) //Acciones de operacion remoto
+    .ColumnHidingEnabled(true) //Si la cantidad de controles no se adaptan a la pantalla se hace responsive
+    .AllowColumnReordering(true)
+    .SearchPanel(searchPanel => searchPanel.Visible(true))
+    .OnDataErrorOccurred("OnDataErrorOccurred")
+    .OnRowInserted("OnInsertRow")
+    .OnRowUpdated("OnUpdateRow")
+    .OnEditingStart("verRegistro")
+    .OnInitNewRow("ActivarRegistro")
+    .DataSource(d => d.Mvc().Controller("Usuario")
+        .LoadAction("GetCliente")  //Las acciones de consultar estarán en el metodo GET del controller indicado
+        .UpdateAction("PutCliente")  //Las acciones de modificar estarán en el metodo PUT del controller indicado
+        .InsertAction("PostCliente")  //Las acciones de insertar estarán en el metodo POST del controller indicado
+                                      //.DeleteAction("DeleteCliente")    //Las acciones de eliminar estarán en el metodo DELETE del controller indicado
+        .Key(new string[] { "CodigoCliente", "Cedula" }) //La llave dentro del campo del grid será el indicado
+         )
+     .OnInitialized("loadGrid")
+
+     .Columns(columns => {
+
+         //Codigo Cliente
+         columns.AddFor(m => m.CodigoCliente)
+         .FormItem(f =>
+         f.Editor(e => e.TextBox().MaxLength(15)) //Obtiene caracteristicas del Editor
+         .IsRequired(false) //Es requerido
+         );
+
+         //Cedula
+         columns.AddFor(m => m.Cedula)
+         .FormItem(f =>
+         f.Editor(e => e.TextBox().MaxLength(12)) //Obtiene caracteristicas del Editor
+         .IsRequired(true) //Es requerido
+         );
+
+         //Nombre
+         columns.AddFor(m => m.Nombre)
+         .FormItem(f=>
+         f.Editor(e=>e.TextBox().MaxLength(15)) //Obtiene caracteristicas del Editor
+         .IsRequired(true) //Es requerido
+         );
+
+         //Apellido 1
+         columns.AddFor(m => m.Apellido1)
+         .FormItem(f =>
+         f.Editor(e => e.TextBox().MaxLength(15)) //Obtiene caracteristicas del Editor
+         .IsRequired(true) //Es requerido
+         );
+
+         //Apellido 2
+         columns.AddFor(m => m.Apellido2)
+         .FormItem(f =>
+         f.Editor(e => e.TextBox().MaxLength(15)) //Obtiene caracteristicas del Editor
+         .IsRequired(true) //Es requerido
+         );
+
+         //Correo
+         columns.AddFor(m => m.Correo)
+         .FormItem(f =>
+         f.Editor(e => e.TextBox().MaxLength(150).Mode(TextBoxMode.Email)) //Obtiene caracteristicas del Editor
+         .IsRequired(true) //Es requerido
+         );
+
+         //contraseña
+         columns.AddFor(m => m.Contrasenna).Visible(false)
+         .FormItem(f =>
+         f.Editor(e => e.TextBox().MaxLength(int.MaxValue).Mode(TextBoxMode.Password)) //Obtiene caracteristicas del Editor
+         .IsRequired(true) //Es requerido
+         );
+
+         //Fecha de Nacimiento
+         columns.AddFor(m => m.FechaNac)
+         .FormItem(f =>
+         f.Editor(e => e.DateBox().DisplayFormat("dd/MM/yyyy").Max(DateTime.Now).Min(DateTime.Parse("01-01-1912")))
+         .IsRequired(true) //Es requerido
+         );
+
+         //Sexo
+         columns.AddFor(m => m.Sexo)
+         .FormItem(f =>
+         f.Editor(e => e.RadioGroup().
+         DataSource(priorityEntities).
+         DisplayExpr("text").
+         ValueExpr("id").
+         Layout(Orientation.Horizontal)) //Obtiene caracteristicas del Editor
+         .IsRequired(true) //Es requerido
+         );
+
+         //ESTADO
+         columns.AddFor(m => m.Estado)
+             .Width(200)   //Tamaño de la columna
+             .SetCellValue("setValue") //Setear un valor en el selectBox envía value por default como parametro
+             .Lookup(lookup => lookup
+             .DataSource(Enum.GetNames(typeof(TypeEstado))) //Se asocia a los datos de la enumeracion de Estado
+             );
+
+         //Nacionalidad
+         columns.AddFor(m => m.Nacionalidad)
+         .FormItem(f =>
+         f.Editor(e => e.Lookup().DataSource(w => w.WebApi().RouteName("paises")).
+         DisplayExpr("Name").
+         ValueExpr("Name")) //Obtiene caracteristicas del Editor
+         .IsRequired(true) //Es requerido
+         ).SetCellValue("setNacionalidadValue");
+
+     })
+    .RowAlternationEnabled(true) //Filas con color alternado en el grid
+    .Paging(p => p.PageSize(10)) //Paginacion por defecto en 10
+     .Pager(pager =>
+     {
+         pager.Visible(true);   //Paginacion visible
+         pager.ShowPageSizeSelector(true); //Mostrar selector de paginas
+         pager.AllowedPageSizes(new JS("[5, 10, 25, 50, 100]")); //Cuadro de opciones para mostrar los datos de la pagina
+         pager.ShowInfo(true); //Mostrar informacion de registros
+         pager.ShowNavigationButtons(true); //Mostrar botones de navegacion de las paginas
+     })
+
+    .Editing(editing =>
+    {
+        editing.Mode(GridEditMode.Popup);//Vista en PopUp | Form | Cell | Batch
+        editing.AllowAdding(true);   //Permitir visible boton de agregar
+        editing.AllowDeleting(true); //Permitir visible boton de eliminar
+        editing.AllowUpdating(true); //Permitir visible boton de actualizar
+        editing.UseIcons(true);      //Utilizar iconos en lugar de los nombres
+
+        editing.Form(f => f.LabelLocation(FormLabelLocation.Top).ColCount(1).Items(items =>
+        {
+            items.AddTabbed().ColSpan(0)  //Agregar Pestañas al momento de editar
+            .Tabs(tabs =>
+            {
+                tabs.Add().Title("Datos")  //Nombre de la pestaña
+                .Items(tabItems =>
+                {
+                    tabItems.AddGroup().Caption("Datos").ColCount(2)  //Cantidad de columnas que posee la pestaña
+                    .Items(groupItems =>
+                    {
+                        //Se agregan los campos en la pestaña a mostrar
+                        groupItems.AddSimpleFor(m => m.CodigoCliente).Visible(false);
+                        groupItems.AddSimpleFor(m => m.Cedula);
+                        groupItems.AddSimpleFor(m => m.Nombre);
+                        groupItems.AddSimpleFor(m => m.Apellido1);
+                        groupItems.AddSimpleFor(m => m.Apellido2);
+                        groupItems.AddSimpleFor(m => m.Correo);
+                        groupItems.AddSimpleFor(m => m.Contrasenna);
+                        groupItems.AddSimpleFor(m => m.FechaNac);
+                        groupItems.AddSimpleFor(m => m.Sexo);
+                        groupItems.AddSimpleFor(m => m.Estado);
+                        groupItems.AddSimpleFor(m => m.Nacionalidad);
+
+                    }); //Cierra el groupItems
+
+                });//Cierre el tabItems
+            });//Cierra el tabs
+        }));//Cierra el Items
+    })
+    //Seccion de resument
+    .Summary(s => s
+    .TotalItems(totalItems =>
+    {
+        totalItems.AddFor(m => m.Cedula).SummaryType(SummaryType.Count);
+    })
+    )
+    )
+    )
+<script>
+
+    function verRegistro(e) {
+        var grid = $("#gridContainer").dxDataGrid('instance');
+        var columns = grid.option("columns");
+        grid.beginUpdate();
+        columns.forEach(function (column) {
+            var nombreCampo = column.dataField;
+            if (nombreCampo == "CodigoCliente" || nombreCampo == "Cedula") {
+                grid.columnOption(nombreCampo, "allowEditing", false);
+            } else {
+                grid.columnOption(nombreCampo, "allowEditing", true);
+            }
+        });
+        grid.endUpdate();
+    }
+
+    function ActivarRegistro(e) {
+        var grid = $("#gridContainer").dxDataGrid('instance');
+        var columns = grid.option("columns");
+        grid.beginUpdate();
+        columns.forEach(function (column) {
+            var nombreCampo = column.dataField;
+            if (nombreCampo == "CodigoCliente") {
+                grid.columnOption(nombreCampo, "allowEditing", false);
+            } else {
+                grid.columnOption(nombreCampo, "allowEditing", true);
+            }
+        });
+        grid.endUpdate();
+    }
+
+    function setValue(e, value) {
+        e.Estado = value;
+    }
+
+    function setNacionalidadValue(e, value) {
+        e.Nacionalidad = value;
+    }
+
+    function loadGrid() {
+        var ds = $("#gridContainer").dxDataGrid("instance").getDataSource();
+        ds.reload();
+    }
+
+    function OnInsertRow(e) {
+        Swal.fire({
+            title: 'Enhorabuena',
+            text: "Registro grabado correctamente",
+            icon: 'success',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+
+    function OnUpdateRow(e) {
+        Swal.fire({
+            title: 'Enhorabuena',
+            text: "Registro modificado correctamente",
+            icon: 'success',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+
+    function OnDataErrorOccurred(e) {
+        //console.log("OnDataErrorOccurred");
+        var msg = e.error.message
+        console.log(e);
+
+        Swal.fire({
+            title: 'Oops',
+            text: msg,
+            icon: 'error',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+
+</script>

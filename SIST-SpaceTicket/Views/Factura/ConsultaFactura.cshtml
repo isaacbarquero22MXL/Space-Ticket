@@ -1,0 +1,302 @@
+﻿@using SIST_SpaceTicket.ViewModel
+@model SIST_SpaceTicket.ViewModel.ViewModelFactura
+@{
+    ViewBag.Title = "Consulta de Factura";
+}
+@*Script para mensajes con swal*@
+<script src="~/Scripts/sweetalert2.js"></script>
+@*GLOBALIZACION DEL LA VISTA*@
+<script src="@Url.Action("CldrData", "Home", new { t = CldrDataScriptBuilder.GetCacheParam() })"></script>
+<script src="~/Scripts/devextreme/localization/dx.messages.es.js"></script>
+
+<style>
+    table {
+        font-weight: bolder !important;
+    }
+</style>
+
+<h2 style="text-align: center; margin: 1rem 0;">@ViewBag.Title</h2>
+
+
+<form id="facturar">
+
+    @(Html.DevExtreme().DataGrid<ViewModelFactura>()
+    .ID("gridContainer")  //Nombre del Grid
+    .ShowBorders(true) //Muestra los bordes
+    .ColumnMinWidth(50) //Valor mínimo para las columnas de 50
+    .FilterRow(f => f.Visible(true)) //Crear filtros en la parte superior
+    .FilterPanel(f => f.Visible(true)) //Habilitar Panel de filtro
+    .HeaderFilter(f => f.Visible(true)) //Filtro en el encabezado
+    .GroupPanel(p => p.Visible(true)) //Agrupacion panel
+    .Grouping(g => g.AutoExpandAll(false)) //Agrupacion autoexpandible
+    .ColumnAutoWidth(true) //AutoIncrementar tamaño de las columnas
+    .RemoteOperations(true) //Acciones de operacion remoto
+    .ColumnHidingEnabled(true) //Si la cantidad de controles no se adaptan a la pantalla se hace responsive
+    .AllowColumnReordering(true)
+    .SearchPanel(searchPanel => searchPanel.Visible(true))
+    .OnExporting("exporting")  //Permite Exportar según funcion indicada abajo
+    .Export(e => e.Enabled(true).AllowExportSelectedData(true)) //Permite exportar según lo seleccionado
+    .Selection(s => s.Mode(SelectionMode.Multiple))  //Permite Seleccionar varios items
+    .RowAlternationEnabled(true) //Filas con color alternado en el grid
+    //.OnEditorPreparing("onEditorPreparing")
+
+     .DataSource(d => d.Mvc().Controller("Factura")
+        .LoadAction("Get")  //Las acciones de consultar estarán en el metodo GET del controller indicado
+        .Key("IDFactura")   //La llave dentro del campo del grid será el indicado
+    )
+    .Columns(columns => {
+
+        //ID Factura
+        columns.AddFor(m => m.IDFactura)
+        .FormItem(f =>
+        f.Editor(e => e.TextBox()) //Obtiene caracteristicas del Editor
+        .IsRequired(true) //Es requerido
+        );
+
+        //FECHA
+        columns.AddFor(m => m.FechaPago)
+        .FormItem(f =>
+        f.Editor(e => e.DateBox().DisplayFormat("dd/MM/yyyy")) //Obtiene caracteristicas del Editor
+        .IsRequired(true) //Es requerido
+        );
+
+        //EVENTO
+        columns.AddFor(m => m.EventoName)
+        .FormItem(f =>
+        f.Editor(e => e.TextBox()) //Obtiene caracteristicas del Editor
+        .IsRequired(true) //Es requerido
+        );
+
+        //ZONA
+        columns.AddFor(m => m.ZonaName)
+        .FormItem(f =>
+        f.Editor(e => e.TextBox()) //Obtiene caracteristicas del Editor
+        .IsRequired(true) //Es requerido
+        );
+
+        //SUBTOTAL
+        columns.AddFor(m => m.SubTotal)
+        .FormItem(f =>
+        f.Editor(e => e.TextBox()) //Obtiene caracteristicas del Editor
+        .IsRequired(true) //Es requerido
+        );
+
+        //IMPUESTO
+        columns.AddFor(m => m.Impuesto)
+        .FormItem(f =>
+        f.Editor(e => e.TextBox()) //Obtiene caracteristicas del Editor
+        .IsRequired(true) //Es requerido
+        );
+
+        //TOTAL
+        columns.AddFor(m => m.Total)
+        .FormItem(f =>
+        f.Editor(e => e.TextBox()) //Obtiene caracteristicas del Editor
+        .IsRequired(true) //Es requerido
+        );
+
+        ////BOTONES
+        //columns.Add()
+        //    .DataField("")
+        //    .Type(GridCommandColumnType.Buttons)
+        //    .Width(100)
+        //    .Buttons(b =>
+        //    {
+        //        b.Add().Name(GridColumnButtonName.Edit); //Al botón de editar se le cambio el icono por uno de find.
+        //        b.Add().Name(GridColumnButtonName.Delete);
+        //        b.Add()  //Se agrega boton nuevo
+        //            .Hint("Generar Factura")  //Mensaje
+        //            .Icon("todo") //Icono de todo
+        //            .Visible(new JS("isVisible"))  //Llama funcion que retorna true o false
+        //            .OnClick(string.Format("function(e){{onFacturar(e);}}")); //Llama metodo que Activa
+
+        //        b.Add()  //Se agrega boton nuevo
+        //         .Hint("Generar PDF")  //Mensaje
+        //         .Icon("print") //Icono de todo
+        //         .Visible(new JS("isImprimible"))  //Llama funcion que retorna true o false
+        //         .OnClick(string.Format("function(e){{print(e);}}")); //Llama metodo que Activa
+
+
+        //        b.Add()  //Se agrega boton nuevo
+        //         .Hint("Enviar Correo")  //Mensaje
+        //         .Icon("email") //Icono de todo
+        //         .Visible(new JS("isImprimible"))  //Llama funcion que retorna true o false
+        //         .OnClick(string.Format("function(e){{sendFactura(e);}}")); //Llama metodo que Activa
+
+        //    });
+    })
+    .Paging(p => p.PageSize(10)) //Paginacion por defecto en 10
+     .Pager(pager =>
+     {
+         pager.Visible(true);   //Paginacion visible
+         pager.ShowPageSizeSelector(true); //Mostrar selector de paginas
+         pager.AllowedPageSizes(new JS("[5, 10, 25, 50, 100]")); //Cuadro de opciones para mostrar los datos de la pagina
+         pager.ShowInfo(true); //Mostrar informacion de registros
+         pager.ShowNavigationButtons(true); //Mostrar botones de navegacion de las paginas
+     })
+    .Editing(editing =>
+    {
+        editing.Mode(GridEditMode.Popup).Popup(x => x.Title("Facturación").ShowTitle(true));   //Vista en PopUp | Form | Cell | Batch
+        editing.AllowAdding(false);   //Permitir visible boton de agregar
+        editing.AllowUpdating(false); //Permitir visible boton de actualizar
+        editing.UseIcons(true);      //Utilizar iconos en lugar de los nombres
+        //Cierra el Items
+    })
+    //Seccion de resument
+    .Summary(s => s
+    .TotalItems(totalItems =>
+    {
+        totalItems.AddFor(m => m.IDFactura).SummaryType(SummaryType.Count);
+    })
+    .GroupItems(groupItems =>
+    {
+        groupItems.Add().SummaryType(SummaryType.Count);
+    })
+    ).OnDataErrorOccurred("onDataErrorOccurred")
+    //******************************* MUESTRA EL EXPAND PARA EL GRID SECUNDARIO ******************************
+    .MasterDetail(md => {
+    md.Enabled(true);
+    md.Template(@<text>
+                  <div class="master-detail-caption"><h4><b>Detalle Factura No. <%- data.IDFactura%></b></h4></div>
+                       @(Html.DevExtreme().DataGrid<ViewModelBoletoDetalle>()
+                        .ID(new JS("data.IDFactura"))  //Nombre del Grid
+                        .ShowBorders(true) //Muestra los bordes
+                        .ColumnMinWidth(50) //Valor mínimo para las columnas de 50
+                        .ColumnAutoWidth(true) //AutoIncrementar tamaño de las columnas
+                        .RemoteOperations(true) //Acciones de operacion remoto
+                        .ColumnHidingEnabled(true) //Si la cantidad de controles no se adaptan a la pantalla se hace responsive
+                        .AllowColumnReordering(true)
+                        .OnExporting("exporting")  //Permite Exportar según funcion indicada abajo
+                        .Export(e => e.Enabled(true).AllowExportSelectedData(true)) //Permite exportar según lo seleccionado
+                        .Selection(s => s.Mode(SelectionMode.Multiple))  //Permite Seleccionar varios items
+                        .RowAlternationEnabled(true) //Filas con color alternado en el grid
+                                                     //    .OnInitialized(string.Format("function(e){{onAgregar(e,{0});}}", new JS("data.Cedula")))
+                        .OnInitNewRow(string.Format("function(e){{iniciarRegistro(e,{0});}}", new JS("data.IDFactura")))
+                        .DataSource(d => d.Mvc().Controller("Factura")
+                            .LoadAction("GetDetalleBoletoFactua")  //Las acciones de consultar estarán en el metodo PUT del controller indicado
+                            .LoadParams(new { IDFactura = new JS("data.IDFactura") })
+                            .Key("IDBoleto")   //La llave dentro del campo del grid será el indicado
+                        )
+                        .Columns(columns => {
+                            //Boleto
+                            columns.AddFor(m => m.IDBoleto)
+                            .Visible(true)  //No es visible en el grid principal
+                            .FormItem(f=>f.Visible(true)//No se muestra en la edición
+                            ).Alignment(HorizontalAlignment.Left);
+
+                            //Fila
+                            columns.AddFor(m => m.Fila)
+                            .Visible(true)  //No es visible en el grid principal
+                            .FormItem(f => f.Visible(true) //No se muestra en la edición
+                            ).Alignment(HorizontalAlignment.Left);
+
+                            //Asiento
+                            columns.AddFor(m => m.Asiento)
+                            .Visible(true)  //No es visible en el grid principal
+                            .FormItem(f => f.Visible(true) //No se muestra en la edición
+                            ).Alignment(HorizontalAlignment.Left);
+
+                            //Precio
+                            columns.AddFor(m => m.PrecioBoleto)
+                            .Visible(true)  //No es visible en el grid principal
+                            .FormItem(f => f.Visible(true) //No se muestra en la edición
+                            ).Alignment(HorizontalAlignment.Left);
+
+                        })
+                        .Paging(p => p.PageSize(5)) //Paginacion por defecto en 10
+                        .Pager(pager =>
+                        {
+                            pager.Visible(true);   //Paginacion visible
+                            pager.ShowInfo(true); //Mostrar informacion de registros
+                            pager.ShowNavigationButtons(true); //Mostrar botones de navegacion de las paginas
+                        })
+                        .Editing(editing =>
+                        {
+                            editing.Mode(GridEditMode.Popup).Popup(x => x.Title("Teléfono Detalle").ShowTitle(true));   //Vista en PopUp | Form | Cell | Batch
+                            editing.AllowAdding(false);   //Permitir visible boton de agregar
+                            editing.AllowDeleting(false); //Permitir visible boton de eliminar
+                            editing.AllowUpdating(false); //Permitir visible boton de actualizar
+                            editing.UseIcons(true);      //Utilizar iconos en lugar de los nombres
+                        })
+                        //Seccion de resument
+                        .Summary(s => s
+                        .TotalItems(totalItems =>
+                        {
+                            totalItems.AddFor(m => m.IDBoleto).SummaryType(SummaryType.Count);  })
+                        .GroupItems(groupItems =>
+                        {
+                            groupItems.Add().SummaryType(SummaryType.Count);
+                        })
+                        ).OnDataErrorOccurred("onDataErrorOccurred")
+                        )
+            </text>);
+    })//Fin del Master Details
+
+    )
+</form>
+
+<script>
+        // SETEA EL VALOR DE ESTADO
+        function setValue(e, value) {
+            e.Estado = value;
+        }
+      //CAPTURA UN ERROR EN CASO DE EXISTIR
+        function onDataErrorOccurred(e) {
+            var msg = e.error.message
+            console.log(e);
+
+            Swal.fire({
+                title: 'Atención',
+                text: msg,
+                icon: 'error',
+                timerProgressBar: true,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+
+    //PERMITE EXPORTAR EL CONTENIDO DE UN DATA GRID
+    function exporting(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Facturas'); //cambiar el nombre de la hoja del archivo excel
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Facturas.xlsx'); //Cambiar nombre como se va a llamar el archivo
+            });
+        });
+        e.cancel = true;
+     }
+
+      //Pertenece a los detalles
+      //Metodo que acciona unos valores cargados por default
+    function iniciarRegistro(e, Factura) {
+        e.data.IDFactura = Factura;
+    }
+    function OnDataErrorOccurred(e) {
+        //console.log("OnDataErrorOccurred");
+        var msg = e.error.message
+        console.log(e);
+
+        Swal.fire({
+            title: 'Oops',
+            text: msg,
+            icon: 'error',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+</script>
+
+
+@*cambiar el idioma de los datebox*@
+<script src="~/js/devextreme/localization/dx.messages.de.js"></script>
+<script src="~/js/devextreme/localization/dx.messages.es.js"></script>
+<script>
+    DevExpress.localization.locale("es");
+</script>

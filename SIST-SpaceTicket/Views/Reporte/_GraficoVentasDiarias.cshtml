@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "_GraficoVentasDiarias";
+}
+
+@model IEnumerable<SIST_SpaceTicket.ViewModel.ViewModelReporteVentasDiarias>
+
+
+@(Html.DevExtreme().Chart()
+    .ID("chart")
+    .Palette(VizPalette.HarmonyLight)
+    .CommonSeriesSettings(s => s
+            .ArgumentField("FechaPago")
+            .Type(SeriesType.Line)
+        )
+    .Series(s => {
+
+        @*Cantidad Boletos*@
+        s.Add()
+        .Color("#F91233")
+        .ValueField("Cantidad")
+        .Name("Cantidad")
+        .Label(l => l.Visible(true));
+
+    })
+    .Export(e => e.Enabled(true))
+    .Tooltip(t => t.Enabled(true))
+    .Legend(l => l
+        .VerticalAlignment(VerticalEdge.Bottom)
+        .HorizontalAlignment(HorizontalAlignment.Center)
+        .ItemTextPosition(Position.Bottom))
+      .Title(t => t
+            .Text("Gráfico de Ventas Diarias")
+            .Subtitle(s => s.Text("(Cantidad de Boletos. Gráfico a la fecha: " + DateTime.Now.ToShortDateString() + ")"))
+        )
+   .DataSource(Model)
+)
+
+<div id="filter" class="options">
+    <div class="caption">Opciones</div>
+    <div class="option">
+        <span>Tipo de Gráfico</span>
+        @(Html.DevExtreme().SelectBox()
+                .DataSource(new[] {
+                    SeriesType.Line,
+                    SeriesType.Area,
+                    SeriesType.Bar
+                })
+                .Value(SeriesType.Line)
+                .OnValueChanged(@<text>
+                    function (e) {
+                        $("#chart").dxChart("option", "commonSeriesSettings.type", e.value);
+                    }
+                </text>)
+            )
+    </div>
+</div>
+<script>
+    function exportToPDF() {
+        var doc = new jsPDF();
+        var dataGrid = $("#gridContainer").dxDataGrid("instance");
+        DevExpress.pdfExporter.exportDataGrid({
+            jsPDFDocument: doc,
+            component: dataGrid
+        }).then(function () {
+            doc.save("Customers.pdf");
+        });
+    }
+</script>
+
+
+
+<script>
+    // https://sweetalert2.github.io/
+    function onLoading(e) {
+        Swal.fire({
+            title: 'Enhorabunea',
+            text: 'Gráfico generado.',
+            icon: 'success',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            position: 'center',
+            timer: 1000
+        });
+    }
+</script>
+
+@* Script requeridos para exportar a PDF*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
+<script>
+    window.jsPDF = window.jspdf.jsPDF;
+    applyPlugin(window.jsPDF);
+</script>
+
+@*Script para mensajes con swal*@
+<script src="~/Scripts/sweetalert2.js"></script>

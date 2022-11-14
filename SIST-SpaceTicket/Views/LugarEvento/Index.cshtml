@@ -1,0 +1,240 @@
+﻿@using Infraestructure.Models.Catalogo
+@model IEnumerable<Infraestructure.Models.Catalogo.LugarEvento>
+@{
+    ViewBag.Title = "Lugar de Evento";
+}
+
+<script src="~/Scripts/sweetalert2.js"></script>
+<script src="@Url.Action("CldrData", "Home", new { t = CldrDataScriptBuilder.GetCacheParam() })"></script>
+<script src="~/Scripts/devextreme/localization/dx.messages.es.js"></script>
+
+<style>
+    #form-container {
+        margin: 10px;
+    }
+
+    .long-title h3 {
+        font-weight: 200;
+        font-size: 28px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+</style>
+
+<br />
+<div class="long-title"><h3>@ViewBag.Title</h3></div>
+<br />
+
+@(Html.DevExtreme().DataGrid<LugarEvento>()
+    .ID("gridContainer")  //Nombre del Grid
+    .ShowBorders(true) //Muestra los bordes
+    .ColumnMinWidth(50) //Valor mínimo para las columnas de 50
+    .FilterRow(f => f.Visible(true)) //Crear filtros en la parte superior
+    .FilterPanel(f => f.Visible(true)) //Habilitar Panel de filtro
+    .HeaderFilter(f => f.Visible(true)) //Filtro en el encabezado
+    .GroupPanel(p => p.Visible(true)) //Agrupacion panel
+    .Grouping(g => g.AutoExpandAll(false)) //Agrupacion autoexpandible
+    .ColumnAutoWidth(true) //AutoIncrementar tamaño de las columnas
+    .RemoteOperations(true) //Acciones de operacion remoto
+    .ColumnHidingEnabled(true) //Si la cantidad de controles no se adaptan a la pantalla se hace responsive
+    .AllowColumnReordering(true)
+    .SearchPanel(searchPanel => searchPanel.Visible(true))
+    .OnDataErrorOccurred("OnDataErrorOccurred")
+    .OnRowInserted("OnInsertRow")
+    .OnRowUpdated("OnUpdateRow")
+    .OnEditingStart("verRegistro")
+    .OnInitNewRow("ActivarRegistro")
+    .DataSource(d => d.Mvc().Controller("LugarEvento")
+        .LoadAction("Get")  //Las acciones de consultar estarán en el metodo GET del controller indicado
+        .UpdateAction("Put")  //Las acciones de modificar estarán en el metodo PUT del controller indicado
+        .InsertAction("Post")  //Las acciones de insertar estarán en el metodo POST del controller indicado
+        .DeleteAction("Delete")    //Las acciones de eliminar estarán en el metodo DELETE del controller indicado
+        .Key("ID")   //La llave dentro del campo del grid será el indicado
+    )
+     .OnInitialized("loadGrid")
+
+     .Columns(columns => {
+
+         //ID
+         columns.AddFor(m => m.ID)
+         .FormItem(f => f.Visible(true).
+         Editor(e => e.NumberBox().Max(9999).Min(0).ShowSpinButtons(true).ShowClearButton(true)).
+         IsRequired(false)
+         );
+
+         //DESCRIPCION TARJETA
+         columns.AddFor(m => m.Nombre)
+         .FormItem(f=>
+         f.Editor(e=>e.TextBox().MaxLength(30)) //Obtiene caracteristicas del Editor
+         .IsRequired(true) //Es requerido
+         );
+
+         //UBICACION
+         columns.AddFor(m => m.Ubicacion)
+             .Width(200)   //Tamaño de la columna
+             .SetCellValue("setValueProvincia") //Setear un valor en el selectBox envía value por default como parametro
+             .Lookup(lookup => lookup
+             .DataSource(w => w.WebApi().RouteName("provincias"))
+             .DisplayExpr("Descripcion")
+             .ValueExpr("Descripcion")//Se asocia a los datos de la enumeracion de Estado
+             );
+
+         //ESTADO
+         columns.AddFor(m => m.Estado)
+             .Width(200)   //Tamaño de la columna
+             .SetCellValue("setValue") //Setear un valor en el selectBox envía value por default como parametro
+             .Lookup(lookup => lookup
+             .DataSource(Enum.GetNames(typeof(TypeEstadoTarjeta))) //Se asocia a los datos de la enumeracion de Estado
+             );
+     })
+    .RowAlternationEnabled(true) //Filas con color alternado en el grid
+    .Paging(p => p.PageSize(10)) //Paginacion por defecto en 10
+     .Pager(pager =>
+     {
+         pager.Visible(true);   //Paginacion visible
+         pager.ShowPageSizeSelector(true); //Mostrar selector de paginas
+         pager.AllowedPageSizes(new JS("[5, 10, 25, 50, 100]")); //Cuadro de opciones para mostrar los datos de la pagina
+         pager.ShowInfo(true); //Mostrar informacion de registros
+         pager.ShowNavigationButtons(true); //Mostrar botones de navegacion de las paginas
+     })
+
+    .Editing(editing =>
+    {
+        editing.Mode(GridEditMode.Popup);//Vista en PopUp | Form | Cell | Batch
+        editing.AllowAdding(true);   //Permitir visible boton de agregar
+        editing.AllowDeleting(true); //Permitir visible boton de eliminar
+        editing.AllowUpdating(true); //Permitir visible boton de actualizar
+        editing.UseIcons(true);      //Utilizar iconos en lugar de los nombres
+
+        editing.Form(f => f.LabelLocation(FormLabelLocation.Top).ColCount(1).Items(items =>
+        {
+            items.AddTabbed().ColSpan(0)  //Agregar Pestañas al momento de editar
+            .Tabs(tabs =>
+            {
+                tabs.Add().Title("Datos")  //Nombre de la pestaña
+                .Items(tabItems =>
+                {
+                    tabItems.AddGroup().Caption("Datos").ColCount(2)  //Cantidad de columnas que posee la pestaña
+                    .Items(groupItems =>
+                    {
+                        //Se agregan los campos en la pestaña a mostrar
+                        groupItems.AddSimpleFor(m => m.Nombre);
+                        groupItems.AddSimpleFor(m => m.Estado);
+                    }); //Cierra el groupItems
+
+                    tabItems.AddGroup().Caption("Estado").ColCount(2)  //Cantidad de columnas que posee la pestaña
+                    .Items(groupItems =>
+                    {
+                        //Se agregan los campos en la pestaña a mostrar
+                        groupItems.AddSimpleFor(m => m.Ubicacion);
+                    }); //Cierra el groupItems
+
+                });//Cierre el tabItems
+            });//Cierra el tabs
+        }));//Cierra el Items
+    })
+    //Seccion de resument
+    .Summary(s => s
+    .TotalItems(totalItems =>
+    {
+        totalItems.AddFor(m => m.ID).SummaryType(SummaryType.Count);
+    })
+    .GroupItems(groupItems =>
+    {
+        groupItems.Add().SummaryType(SummaryType.Count);
+    })
+    )
+    )
+
+<script>
+
+    function verRegistro(e) {
+        var grid = $("#gridContainer").dxDataGrid('instance');
+        var columns = grid.option("columns");
+        grid.beginUpdate();
+        columns.forEach(function (column) {
+            var nombreCampo = column.dataField;
+            if (nombreCampo == "ID") {
+                grid.columnOption(nombreCampo, "allowEditing", false);
+            } else {
+                grid.columnOption(nombreCampo, "allowEditing", true);
+            }
+        });
+        grid.endUpdate();
+    }
+
+    function ActivarRegistro(e) {
+        var grid = $("#gridContainer").dxDataGrid('instance');
+        var columns = grid.option("columns");
+        grid.beginUpdate();
+        columns.forEach(function (column) {
+            var nombreCampo = column.dataField;
+            if (nombreCampo == "ID") {
+                grid.columnOption(nombreCampo, "allowEditing", false);
+            } else {
+                grid.columnOption(nombreCampo, "allowEditing", true);
+            }
+        });
+        grid.endUpdate();
+    }
+
+    function setValue(e, value) {
+        e.Estado = value;
+    }
+
+    function setValueProvincia(e, value) {
+        e.Ubicacion = value;
+    }
+
+    function loadGrid() {
+        var ds = $("#gridContainer").dxDataGrid("instance").getDataSource();
+        ds.reload();
+    }
+
+    function OnInsertRow(e) {
+        Swal.fire({
+            title: 'Enhorabuena',
+            text: "Registro grabado correctamente",
+            icon: 'success',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+
+    function OnUpdateRow(e) {
+        Swal.fire({
+            title: 'Enhorabuena',
+            text: "Registro modificado correctamente",
+            icon: 'success',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+
+    function OnDataErrorOccurred(e) {
+        //console.log("OnDataErrorOccurred");
+        var msg = e.error.message
+        console.log(e);
+
+        Swal.fire({
+            title: 'Oops',
+            text: msg,
+            icon: 'error',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+
+</script>
+
+
+@*Idioma español*@
+<script src="~/js/devextreme/localization/dx.messages.de.js"></script>
+<script src="~/js/devextreme/localization/dx.messages.es.js"></script>
+<script>
+    DevExpress.localization.locale("es");
+</script>
+

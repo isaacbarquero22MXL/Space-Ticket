@@ -1,0 +1,150 @@
+﻿<style>
+    .h-25 {
+        color: #F91233 !important;
+        max-width: 100% !important;
+        padding: 1rem 0;
+    }
+
+    .row {
+        flex-direction: column;
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    .report-title {
+        text-align: center;
+        background: #F91233;
+        color: white;
+        padding: .5rem 12.5%;
+    }
+
+    .reportBtn {
+        text-decoration: none !important;
+        color: white !important;
+        padding: .5rem !important;
+        width: fit-content !important;
+        background: #F91233 !important;
+        border-radius: .5rem;
+    }
+
+    .dx-button-text, .dx-icon {
+        color: #F91233
+    }
+
+    .dx-calendar-selected-date {
+        box-shadow: inset 0 0 0 1000px #F91233 !important;
+    }
+
+    #submitBtn .dx-button-text {
+        color: white !important
+    }
+
+    #chart, #filter {
+        width: 90%;
+        margin: 0 auto;
+    }
+</style>
+<h2 class="report-title">Reporte de Ventas Diarias.</h2>
+<br>
+
+@using (Html.BeginForm("ReporteVentasDiarias",
+                       "Reporte",
+                       FormMethod.Post))
+{
+
+    <div class="container">
+        <div class="row">
+            <div>
+                <div class="col-sm-2 h-25">
+                    Fecha de Inicio
+                </div>
+                <div class="col-sm-3   h-25">
+                    @(Html.DevExtreme().
+                   DateBox().
+                   ID("dtpInicio").
+                   Name("dtpInicio").
+                   Value(DateTime.Now)
+                   )
+                </div>
+            </div>
+            <div>
+                <div class="col-sm-2 h-25">
+                    Fecha Final
+                </div>
+                <div class="col-sm-3   h-25">
+                    @(Html.DevExtreme().
+                   DateBox().
+                   ID("dtpFin").
+                   Name("dtpFin").
+                   Value(DateTime.Now)
+                   )
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm h-25">
+                @(Html.DevExtreme().
+                Button().
+                Text("Consultar").
+                UseSubmitBehavior(true).
+                Type(ButtonType.Success).
+                ID("submitBtn"))
+            </div>
+        </div>
+    </div>
+    <br>
+}
+
+
+@*cambiar el idioma de los datebox*@
+<script src="~/js/devextreme/localization/dx.messages.de.js"></script>
+<script src="~/js/devextreme/localization/dx.messages.es.js"></script>
+<script>
+    DevExpress.localization.locale("es");
+</script>
+
+@if (TempData["BoletosGrafico"] != null)
+{
+    @Html.Partial("_GraficoVentasDiarias", TempData["BoletosGrafico"])
+}
+
+@if (Session["ReporteVentasDiarias"] != null)
+{
+    <div style="margin: 1rem 0; text-align: center;">
+        @Html.ActionLink("Ver Reporte", "GeneraReporteVentaDiarias", "Reporte", null, new { target = "_blank", @class = "reportBtn" })
+    </div>
+}
+
+@if (TempData["Type"] != null)
+{
+
+    if (TempData["Type"].ToString() == "Fail")
+    {
+        // Se lee el contenido del TempData a una variable de Razor
+        String mensaje = TempData["Message"].ToString();
+        // Eliminar los saltos de linea
+        mensaje = mensaje.Replace(System.Environment.NewLine, "");
+        // Formar llamar JavaScript
+        <script type="text/javascript">
+            $(function () {
+                try {
+                    // De esta forma se pasa una variable de Razor
+                    // a una variable en JavaScript
+                    var msg = "Error :"+"@(mensaje)";
+                    DevExpress.ui.notify(msg, "error", 2000);
+                } catch (err) {
+                    log.console(err)
+                }
+            })
+        </script>
+    }
+}
+
+
+@*Idioma español*@
+<script src="~/js/devextreme/localization/dx.messages.de.js"></script>
+<script src="~/js/devextreme/localization/dx.messages.es.js"></script>
+<script>
+    DevExpress.localization.locale("es");
+</script>

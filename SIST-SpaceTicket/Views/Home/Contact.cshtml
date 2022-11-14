@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Contacto";
+}
+
+<link href="~/Content/autor.css" rel="stylesheet" />
+
+<h2 style="text-align: center; margin-top: 2rem; color: #F91233; ">@ViewBag.Title</h2>
+
+    <div id="autor">
+        <div class="container-fluid row perfil">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="labelInfo" id="label1" style="color: black;"><Strong><i class="fa-solid fa-mobile"></i> Contacto: (+506) 6464-5793</Strong></div>
+                    <div class="labelInfo" id="label2" style="color: black;"><Strong><i class="fas fa-envelope"></i> Correo: isaacbarquero22@gmail.com</Strong></div>
+                    <div class="contenido">
+                        <h2><Strong>Isaac Barquero Lizano</Strong></h2>
+                    </div>
+                    <div class="labelInfo" id="label3" style="color: black;"><Strong><i class="fas fa-user"></i> Edad: 21 años</Strong></div>
+                    <div class="labelInfo" id="label4" style="color: black;"><Strong><i class="fas fa-briefcase"></i> Ocupación: Ingeniero en Software</Strong></div>
+                    <img src="~/Images/autor.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    const contStar = 300;
+    const space = document.getElementsByClassName('main')[0];
+    function createSpace() {
+        let stars = '';
+        for (let index = 0; index < contStar; index++) {
+            let star = document.createElement('span');
+            star.classList.add('star');
+            let top = parseInt(Math.random() * screen.height);
+            let left = parseInt(Math.random() * screen.width);
+            let padding = parseInt(Math.random() * 3);
+            star.style.top = top + 'px';
+            star.style.left = left + 'px';
+            star.style.padding = padding + 'px';
+            let random = parseInt(Math.random() * 10);
+            if (random % 2 == 0) {
+                star.classList.add('starAnimated')
+                let delay = (Math.random() * 4);
+                star.style.animationDelay = delay + 's';
+            }
+            space.appendChild(star);
+        }
+    }
+
+    window.onload = createSpace;
+</script>

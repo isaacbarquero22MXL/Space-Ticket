@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Infraestructure.Models.Catalogo.Zona>
+<div class="zones-menu">
+    <h1>Zonas</h1>
+    @foreach (var item in Model)
+    {
+        <div class="zone">@Html.ActionLink(item.Descripcion.ToUpper() + " $"+ item.Precio, "FindSeats", "Lugar",
+                         new {IDEvento = TempData["IDEventoTemp"].ToString(), IDZona = item.ID }, null)
+        </div>
+    }
+    <div style="margin: 3rem 0; text-align:center">
+        <p style="width: 50%; margin: auto; color: black;">
+            <span style="font-weight: bolder">Precios expresados en Dólares (USD).</span><br>
+            El evento está sujeto al cargo por servicio por el sistema Space Tticket, los cuales están incluidos en el precio listado.
+        </p>
+    </div>
+</div>

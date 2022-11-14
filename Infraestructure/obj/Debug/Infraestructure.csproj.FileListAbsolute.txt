@@ -1,0 +1,52 @@
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\bin\Debug\Infraestructure.dll.config
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\bin\Debug\Infraestructure.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\bin\Debug\Infraestructure.pdb
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\bin\Debug\EntityFramework.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\bin\Debug\log4net.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\bin\Debug\EntityFramework.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\bin\Debug\log4net.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\obj\Debug\Infraestructure.csproj.AssemblyReference.cache
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\obj\Debug\Infraestructure.csproj.CoreCompileInputs.cache
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\obj\Debug\Infraestructure.csproj.CopyComplete
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\obj\Debug\Infraestructure.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\SIST-SpaceTicket\Infraestructure\obj\Debug\Infraestructure.pdb
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\Infraestructure.dll.config
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\Infraestructure.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\Infraestructure.pdb
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\EntityFramework.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\log4net.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\MessagingToolkit.QRCode.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\System.Web.Helpers.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\System.Web.Mvc.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\System.Web.Razor.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\System.Web.WebPages.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\EntityFramework.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\log4net.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\System.Web.Helpers.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\System.Web.Mvc.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\System.Web.Razor.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\System.Web.WebPages.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\es\System.Web.Helpers.resources.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\es\System.Web.Mvc.resources.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\es\System.Web.Razor.resources.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\es\System.Web.WebPages.resources.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\bin\Debug\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\obj\Debug\Infraestructure.csproj.AssemblyReference.cache
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\obj\Debug\Infraestructure.csproj.CoreCompileInputs.cache
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\obj\Debug\Infraestructure.csproj.CopyComplete
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\obj\Debug\Infraestructure.dll
+C:\Users\Isaac\Documents\Proyecto Ambiente Web II\Proyecto - 118010156\Infraestructure\obj\Debug\Infraestructure.pdb

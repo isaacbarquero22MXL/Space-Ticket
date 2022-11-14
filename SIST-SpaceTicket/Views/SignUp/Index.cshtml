@@ -1,0 +1,269 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+    Session.CodePage = 65001;
+}
+
+@model SIST_SpaceTicket.ViewModel.ViewModelCliente
+
+@*icono de Space ticket*@
+<link href="~/SpaceTicket_LogoIcon.ico" rel="shortcut icon" type="image/x-icon" />
+
+@using (Html.BeginForm("SignUp", "SignUp", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    using (Html.DevExtreme().ValidationGroup())
+    {
+        @Styles.Render("~/Content/bundle")
+        @Styles.Render("~/Content/DevExtremeBundle")
+        @Scripts.Render("~/Scripts/bundle")
+        @Scripts.Render("~/Scripts/DevExtremeBundle")
+        <link href="~/Content/index.styles.css" rel="stylesheet" />
+        <link href="~/Content/general.ingreso.css" rel="stylesheet" />
+        <link href="~/Content/ingreso.css" rel="stylesheet" />
+
+        <main class="section body-singup" id="main">
+            <div class="login_logo" onclick="animation()">
+                <img src="~/Images/SpaceTicket_Logo.png" alt="logo" class="login_logo-img" />
+            </div>
+            <div class="login_content">
+                <a href="index.xhtml" class="login_back"><i class='bx bx-arrow-back go_back'></i>Regresar</a>
+                <h1 class="login_title">Crear una cuenta <br />Datos personales</h1>
+                <div class="login_content-container container_one">
+                    <div class="login_form section">
+                        <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-id-card'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5>@(Html.LabelFor(m => m.Cedula))</h5>
+                                @(Html.DevExtreme().
+                                                 TextBoxFor(m => m.Cedula).
+                                                 Name("Cedula").
+                                                 ID("Cedula"))
+                            </div>
+                        </div>
+                        <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-user user_icon'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5>@(Html.LabelFor(m => m.Nombre))</h5>
+                                @(Html.DevExtreme().
+                                                 TextBoxFor(m => m.Nombre).
+                                                 Name("Nombre").
+                                                 ID("Nombre"))
+                            </div>
+                        </div>
+                        <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-user user_icon'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5>@(Html.LabelFor(m => m.Apellido1))</h5>
+                                @(Html.DevExtreme().
+                                             TextBoxFor(m => m.Apellido1).
+                                             Name("Apellido1").
+                                             ID("Apellido1"))
+                            </div>
+                        </div>
+                        <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-user user_icon'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5>@(Html.LabelFor(m => m.Apellido2))</h5>
+                                @(Html.DevExtreme().
+                                             TextBoxFor(m => m.Apellido2).
+                                             Name("Apellido2").
+                                             ID("Apellido2"))
+                            </div>
+                        </div>
+                        <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-user user_icon'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5>@(Html.LabelFor(m => m.Correo))</h5>
+                                @(Html.DevExtreme().
+                                             TextBoxFor(m => m.Correo).
+                                             Mode(TextBoxMode.Email).
+                                             Name("Correo").
+                                             ID("Correo"))
+                            </div>
+                        </div>
+                        <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-phone'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5>@(Html.LabelFor(m => m.FechaNac))</h5>
+                                @(Html.DevExtreme().
+                                             DateBoxFor(m => m.FechaNac).
+                                             Value(DateTime.Parse("1/1/1990")).
+                                             DisplayFormat("dd/MM/yyyy").
+                                             Name("FechaNac").
+                                             ID("FechaNac"))
+                            </div>
+                        </div>
+                        <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-lock-alt lock_icon'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5>@(Html.LabelFor(m => m.Contrasenna))</h5>
+                                @(Html.DevExtreme().
+                                             TextBoxFor(m => m.Contrasenna).
+                                             Mode(TextBoxMode.Password).
+                                             Name("Contrasenna").
+                                             ID("Constrasenna"))
+                            </div>
+                        </div>
+                        <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-lock-alt lock_icon'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5>@(Html.LabelFor(m => m.ContrasennaConfirm))</h5>
+                                @(Html.DevExtreme().
+                                             TextBoxFor(m => m.ContrasennaConfirm).
+                                             Mode(TextBoxMode.Password).
+                                             Name("ContrasennaConfirm").
+                                             ID("ContrasennaConfirm"))
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="login_content-container container_two">
+                    <div class="login_form section" style="display: block">
+                        <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-location-plus'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5 class="login_location">@(Html.LabelFor(m => m.Nacionalidad))</h5>
+                                @(Html.DevExtreme().
+                                            LookupFor(m => m.Nacionalidad).
+                                            DataSource(w => w.WebApi().RouteName("paises")).
+                                            DisplayExpr("Name").
+                                            ValueExpr("Name").
+                                            Name("Nacionalidad").
+                                            ID("Nacionalidad"))
+                            </div>
+                        </div>
+                    </div>
+                    <div class="login_form section" style="display: block">
+                        <div class="login_section">
+                            <div class="login_icon">
+                                <i class='bx bxs-location-plus'></i>
+                            </div>
+                            <div class="login_inputs">
+                                <h5 class="login_location">Género</h5>
+                                @{
+                                    var priorityEntities = new[] {
+                                                            new { id = "M", text = "Masculino" },
+                                                            new { id = "F", text = "Femenino" },
+                                                            new { id = "N", text = "Prefiero no decirlo" },
+                                                        };
+                                }
+                                @(Html.DevExtreme().RadioGroupFor(m => m.Sexo)
+                                            .DataSource(priorityEntities)
+                                            .ValueExpr("id")
+                                            .DisplayExpr("text")
+                                            .Layout(Orientation.Horizontal)
+                                        )
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="login_section">
+                    <h:outputLabel escape="false" class="errorLabel" value="#{beanUsuario.mensaje}"></h:outputLabel>
+                </div>
+                <div class="login_register section">
+                    <p class="login_register-p">
+                        Al hacer clic en registrar, confirmo que he leído y acepto:
+                        <a href="#" class="register">Términos y condiciones del sitio web de Space Ticket.</a>
+                    </p>
+                </div>
+                <div class="login_btn">
+                    <button type="button" class="button btn" onclick="moverPanel()" value="Siguiente">Siguiente</button>
+                    @(Html.DevExtreme().
+                                Button().
+                                Text("Registrame").
+                                OnInitialized("addClass").
+                                Type(ButtonType.Success).
+                                UseSubmitBehavior(true))
+                    <button type="button" class="button btn" onclick="moverPanel()" value="Retroceder">Retroceder</button>
+                </div>
+                <hr />
+                <div class="login_links section">
+                    <a href="PDF/Manual de Ayuda .pdf" download="Manual de Ayuda .pdf" class="login_link">Ayuda</a>
+                    <p class="login_register-p">
+                        ¿Ya tiene una cuenta?
+                        @Html.ActionLink("Iniciar Sesión", "Index", "Login", null, new { @class = "register" })
+                    </p>
+                </div>
+            </div>
+        </main>
+    }
+}
+
+
+
+@if (TempData["Type"] != null)
+{
+    if (TempData["Type"].ToString() == "Fail")
+    {
+        // Se lee el contenido del TempData a una variable de Razor
+        String mensaje = TempData["Message"].ToString();
+        <script type="text/javascript">
+            $(function () {
+                try {
+                    // De esta forma se pasa una variable de Razor
+                    // a una variable en JavaScript
+                    var msg = "Error :"+"@(mensaje)";
+                    DevExpress.ui.notify(msg, "error", 10000);
+                } catch (err) {
+                    log.console(err)
+                }
+            })
+        </script>
+    }
+
+}
+<script src="~/Scripts/scrollreveal.min.js"></script>
+<script src="~/Scripts/ingreso.js"></script>
+<script>
+    function addClass(e) {
+        e.element.addClass("button");
+        e.element.addClass("btn");
+    }
+</script>
+<script>
+    const contStar = 300;
+    const space = document.getElementsByClassName('body-singup')[0];
+    function createSpace() {
+        let stars = '';
+        for (let index = 0; index < contStar; index++) {
+            let star = document.createElement('span');
+            star.classList.add('star');
+            let top = parseInt(Math.random() * screen.height);
+            let left = parseInt(Math.random() * screen.width);
+            let padding = parseInt(Math.random() * 3);
+            star.style.top = top + 'px';
+            star.style.left = left + 'px';
+            star.style.padding = padding + 'px';
+            let random = parseInt(Math.random() * 10);
+            if (random % 2 == 0) {
+                star.classList.add('starAnimated')
+                let delay = (Math.random() * 4);
+                star.style.animationDelay = delay + 's';
+            }
+            space.appendChild(star);
+        }
+    }
+
+    window.onload = createSpace;
+</script>

@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<main class="main" id="main">
+    <div class="main-first-section">
+        <div class="home-section">
+            <div class="home-title">Space <p class="gradient-text">Ticket</p></div>
+            <div class="home-description">
+                No te pierdas de los más emocionantes eventos que te ofrecemos.
+                Explora las secciones y consigue boletos para tu actividad preferida.
+            </div>
+            <div class="home-button">
+                <a class="home-btn" href="#second-section">
+                    Explorar
+                    <div class="fire">
+                        <div class="fire-left">
+                            <div class="main-fire"></div>
+                            <div class="particle-fire"></div>
+                        </div>
+                        <div class="fire-center">
+                            <div class="main-fire"></div>
+                            <div class="particle-fire"></div>
+                        </div>
+                        <div class="fire-right">
+                            <div class="main-fire"></div>
+                            <div class="particle-fire"></div>
+                        </div>
+                        <div class="fire-bottom">
+                            <div class="main-fire"></div>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+        <div class="space-section">
+            <div class="rocket-container">
+                <img src="~/Images/Rocket_button.png" alt="" class="space-rocket">
+                <div class="ticket-container ticket-container1">
+                    <img src="~/Images/ticket.png" alt="" class="ticket ticket1">
+                </div>
+                <div class="ticket-container ticket-container2">
+                    <img src="~/Images/ticket.png" alt="" class="ticket ticket2">
+                </div>
+                <div class="ticket-container ticket-container3">
+                    <img src="~/Images/ticket.png" alt="" class="ticket ticket3">
+                </div>
+                <div class="ticket-container ticket-container4">
+                    <img src="~/Images/ticket.png" alt="" class="ticket ticket4">
+                </div>
+            </div>
+        </div>
+        <img src="~/Images/earth.png" alt="" class="earth">
+        <img src="~/Images/star.png" alt="" class="big-star1">
+        <img src="~/Images/star.png" alt="" class="big-star2">
+        <img src="~/Images/star.png" alt="" class="big-star3">
+    </div>
+    <div class="second-section" id="second-section">
+        <div class="event-section">
+            @if (ViewBag.MainEvent != null)
+            {
+                <div class="main-event">
+                    <img src="@((ViewBag.MainEvent as Infraestructure.Models.Catalogo.Evento).Imagen)" alt="" class="event-img">
+                    <p class="event-title">@((ViewBag.MainEvent as Infraestructure.Models.Catalogo.Evento).Descripcion)</p>
+                    <p class="event-location">@((ViewBag.MainEvent as Infraestructure.Models.Catalogo.Evento).LugarEventoObject.Ubicacion)</p>
+                    @Html.ActionLink("Ver Evento", "Index", "Event", new { IDEvento = (ViewBag.MainEvent as Infraestructure.Models.Catalogo.Evento).ID }, new { @class = "event-link" })
+                </div>
+            }
+            <div class="other-events">
+                @if (ViewBag.Eventos != null)
+                {
+                    foreach (var evento in (IEnumerable<Infraestructure.Models.Catalogo.Evento>)ViewBag.Eventos)
+                    {
+                        <div class="event">
+                            <img src="@evento.Imagen" alt="" class="event-img">
+                            <p class="event-title">@evento.Descripcion</p>
+                            <p class="event-location">@evento.LugarEventoObject.Ubicacion</p>
+                            @Html.ActionLink("Ver Evento", "Index", "Event", new { IDEvento = evento.ID }, new { @class = "event-link" })
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</main>
+@if (TempData["PaySuccess"] != null)
+{
+    if (TempData["PaySuccess"].ToString() == "Success")
+    {
+        // Se lee el contenido del TempData a una variable de Razor
+        String mensaje = TempData["Message"].ToString();
+        <script src="~/Scripts/sweetalert2.js"></script>
+        <script type="text/javascript">
+            Swal.fire({
+                title: 'Pago Realizado',
+                text: "@(mensaje.ToString())",
+                icon: 'success',
+                button: 'Aceptar',
+                timerProgressBar: true,
+                showConfirmButton: true,
+                position: 'center',
+                timer: 1000000
+            });
+        </script>
+    }
+}

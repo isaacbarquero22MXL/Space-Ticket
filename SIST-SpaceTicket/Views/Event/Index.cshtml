@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@model SIST_SpaceTicket.ViewModel.ViewModelEvento
+
+<link rel="stylesheet" href="~/Content/evento.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+<main class="main">
+    <div class="event-banner">
+        <img src="@Model.Evento.Imagen" alt="evento" class="img-banner">
+    </div>
+    <div class="event-title">
+        <p class="title">@Model.Evento.Descripcion</p>
+    </div>
+    <section class="event-menu">
+        <div class="event-content">
+            <h1 class="event-content-title">Eventos</h1>
+            <hr class="horizontal" style="margin: 1rem auto; border-top: 2px solid rgba(0,0,0, .1)">
+            <div class="events">
+                <div class="event-item">
+                    <div class="event-information-container">
+                        <div class="event-information-content">
+                            <div class="event-item-img">
+                                <img src="@Model.Evento.Imagen" alt="Evento">
+                            </div>
+                            <div class="event-content-data">
+                                <div class="event-item-date">
+                                    <p class="month">@Model.Month</p>
+                                    <p class="day">@Model.Day</p>
+                                    <p class="year">@Model.Year</p>
+                                </div>
+                                <div class="event-item-data">
+                                    <div class="event-item-data-place">
+                                        <p>@Model.Evento.LugarEventoObject.Nombre</p>
+                                        <p>@Model.Evento.LugarEventoObject.Ubicacion</p>
+                                    </div>
+                                    <div class="event-item-data-when">
+                                        <div class="event-item-data-times">
+                                            @Model.Evento.Hora hrs
+                                        </div>
+                                        <hr style="height: 50px; margin-right: .4rem; width: 2px; background: #FF1B3C;">
+                                        <div class="event-item-data-description" style="margin-left: .5rem">
+                                            @Model.Evento.Descripcion
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="event-item-button">
+                            <a href="#" onclick=""></a>
+                            @if (!Model.isSold)
+                            {
+                                @Html.ActionLink("Comprar Boletos", "FindZones", "Zona", new { LugarEvento = Model.Evento.LugarEventoObject.ID, IDEvento = Model.Evento.ID }, new { @class = "event-button" })
+                                <i class="fa-solid fa-ticket ticket-icon"></i>
+                            }
+                            else
+                            {
+                                <p class="event-button event-button-sold">AGOTADO</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (TempData["ZonasEvento"] != null)
+        {
+            @Html.Partial("_PartialViewMenuZonas", TempData["ZonasEvento"]);
+        }
+        @if (TempData["EventZoneSeats"] != null)
+        {
+            @Html.Partial("_PartialSeatBooking", TempData["EventZoneSeats"]);
+        }
+        @if (Session["DetalleFactura"] != null)
+        {
+            @Html.Partial("_PartialEventoFacturaDetalle", Session["DetalleFactura"]);
+        }
+
+
+    </section>
+</main>
+@if (TempData["Type"] != null)
+{
+    if (TempData["Type"].ToString() == "Fail")
+    {
+        // Se lee el contenido del TempData a una variable de Razor
+        String mensaje = TempData["Message"].ToString();
+        <script type="text/javascript">
+            $(function () {
+                try {
+                    // De esta forma se pasa una variable de Razor
+                    // a una variable en JavaScript
+                    var msg = "@(mensaje)";
+                    DevExpress.ui.notify(msg, "error", 10000);
+                } catch (err) {
+                    log.console(err)
+                }
+            })
+        </script>
+    }
+}
+
+
+
+<script src="~/Scripts/Evento.js"></script>

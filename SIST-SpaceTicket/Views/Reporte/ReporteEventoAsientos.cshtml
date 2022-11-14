@@ -1,0 +1,149 @@
+﻿
+<style>
+    .h-25 {
+        color: #F91233 !important;
+        max-width: 100% !important;
+        padding: 1rem 0;
+    }
+
+    .row {
+        flex-direction: column;
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    .report-title {
+        text-align: center;
+        background: #F91233;
+        color: white;
+        padding: .5rem 12.5%;
+    }
+
+    .dx-button-text, .dx-icon {
+        color: #F91233 !important
+    }
+
+    .dx-calendar-selected-date {
+        box-shadow: inset 0 0 0 1000px #F91233 !important;
+    }
+
+    #submitBtn .dx-button-text {
+        color: white !important
+    }
+</style>
+
+<h2 class="report-title">Reporte de asientos disponibles y ocupados por Evento mediante rango de fechas de compra.</h2>
+<br>
+
+
+@using (Html.BeginForm("ReporteEventoAsientos",
+                       "Reporte",
+                       FormMethod.Post,
+                       new
+                       {
+                           target = "_blank",
+                       }))
+{
+
+    <div class="container">
+        <div class="row">
+            <div>
+                <div class="col-sm-2 h-25">
+                    Fecha de Inicio
+                </div>
+                <div class="col-sm-3   h-25">
+                    @(Html.DevExtreme().
+                   DateBox().
+                   ID("dtpInicio").
+                   Name("dtpInicio").
+                   Value(DateTime.Now)
+                   )
+                </div>
+            </div>
+            <div>
+                <div class="col-sm-2 h-25">
+                    Fecha Final
+                </div>
+                <div class="col-sm-3   h-25">
+                    @(Html.DevExtreme().
+                   DateBox().
+                   ID("dtpFin").
+                   Name("dtpFin").
+                   Value(DateTime.Now)
+                   )
+                </div>
+            </div>
+            <div>
+                <div class="col-sm-2 h-25">
+                    Evento a consultar
+                </div>
+                <div class="col-sm-3   h-25">
+                    @(Html.DevExtreme().
+                   Lookup().
+                   DataSource(w => w.WebApi().RouteName("Eventos")).
+                   ValueExpr("ID").
+                   DisplayExpr("Descripcion").
+                   ID("IDEvento").
+                   Name("IDEvento"))
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm h-25">
+                @(Html.DevExtreme().
+                Button().
+                Text("Consultar").
+                UseSubmitBehavior(true).
+                Type(ButtonType.Success).
+                ID("submitBtn"))
+            </div>
+        </div>
+    </div>
+    <br>
+}
+<script src="~/js/devextreme/localization/dx.messages.de.js"></script>
+<script src="~/js/devextreme/localization/dx.messages.es.js"></script>
+<script>
+    DevExpress.localization.locale("es");
+</script>
+
+@if (TempData["Type"] != null)
+{
+
+    if (TempData["Type"].ToString() == "Fail")
+    {
+        // Se lee el contenido del TempData a una variable de Razor
+        String mensaje = TempData["Message"].ToString();
+        // Eliminar los saltos de linea
+        mensaje = mensaje.Replace(System.Environment.NewLine, "");
+        // Formar llamar JavaScript
+        <script type="text/javascript">
+            $(function () {
+                try {
+                    // De esta forma se pasa una variable de Razor
+                    // a una variable en JavaScript
+                    var msg = "Érror "+"@mensaje";
+                    DevExpress.ui.notify(msg, "error", 2000);
+                } catch (err) {
+                    log.console(err)
+                }
+            })
+        </script>
+    }
+}
+
+@*<script type="text/javascript">
+
+        function validateForm() {
+            var input = $('#txtFiltro').dxTextBox('instance').option('value');
+
+            if (input == "") {
+                return false;
+            } else {
+
+                return true;
+            }
+        }
+
+    </script>*@

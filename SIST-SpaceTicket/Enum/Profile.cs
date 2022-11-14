@@ -1,0 +1,1 @@
+﻿public enum Profile { Administrador = 1, Operador = 2, Reportes = 3 }

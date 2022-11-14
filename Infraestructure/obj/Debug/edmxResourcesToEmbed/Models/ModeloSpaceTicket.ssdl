@@ -1,0 +1,440 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SIST_BDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Boleto">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="FechaPago" Type="datetime" Nullable="false" />
+    <Property Name="IDEventoPrecio" Type="int" Nullable="false" />
+    <Property Name="IDLugar" Type="int" Nullable="false" />
+    <Property Name="IDCliente" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="CedulaCliente" Type="nvarchar" MaxLength="12" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Cliente">
+    <Key>
+      <PropertyRef Name="CodigoCliente" />
+      <PropertyRef Name="Cedula" />
+    </Key>
+    <Property Name="CodigoCliente" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="Cedula" Type="nvarchar" MaxLength="12" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="Apellido1" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="Apellido2" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="FechaNac" Type="smalldatetime" Nullable="false" />
+    <Property Name="Sexo" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="Correo" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Contrasenna" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Nacionalidad" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="Estado" Type="nvarchar" MaxLength="15" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DireccionEmpleado">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Provincia" Type="int" Nullable="false" />
+    <Property Name="Canton" Type="int" Nullable="false" />
+    <Property Name="Distrito" Type="int" Nullable="false" />
+    <Property Name="IDEmpleado" Type="nvarchar" MaxLength="12" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Empleado">
+    <Key>
+      <PropertyRef Name="Cedula" />
+    </Key>
+    <Property Name="Cedula" Type="nvarchar" MaxLength="12" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="Apellido1" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="Apellido2" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="Correo" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Contrasenna" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Estado" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="Fotografia" Type="varbinary(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EmpleadoPerfil">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IDEmpleado" Type="nvarchar" MaxLength="12" Nullable="false" />
+    <Property Name="IDPerfil" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EmpleadoTelefono">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IDEmpleado" Type="nvarchar" MaxLength="12" Nullable="false" />
+    <Property Name="Telefono" Type="nvarchar" MaxLength="18" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Evento">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Imagen" Type="varbinary(max)" Nullable="false" />
+    <Property Name="Fecha" Type="smalldatetime" Nullable="false" />
+    <Property Name="Hora" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Estado" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="TipoEvento" Type="int" Nullable="false" />
+    <Property Name="LugarEvento" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EventoPrecio">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Precio" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="IDZona" Type="int" Nullable="false" />
+    <Property Name="IDEvento" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Factura">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FechaGeneracion" Type="smalldatetime" Nullable="false" />
+    <Property Name="SubTotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="IVA" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Total" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="FacturaXML" Type="xml" Nullable="false" />
+    <Property Name="IDBoleto" Type="nvarchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Lugar">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NumeroAsiento" Type="nvarchar" MaxLength="5" Nullable="false" />
+    <Property Name="Fila" Type="nvarchar" MaxLength="2" Nullable="false" />
+    <Property Name="IDZona" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LugarEvento">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Perfil">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'SIST_BD.dbo.Tarjeta' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+  <EntityType Name="Tarjeta">
+    <Key>
+      <PropertyRef Name="Numero" />
+      <PropertyRef Name="MesVen" />
+      <PropertyRef Name="AnnoVen" />
+      <PropertyRef Name="CVC" />
+      <PropertyRef Name="TipoTarjeta" />
+      <PropertyRef Name="IDCliente" />
+      <PropertyRef Name="CedulaCliente" />
+    </Key>
+    <Property Name="Numero" Type="nvarchar" MaxLength="16" Nullable="false" />
+    <Property Name="MesVen" Type="nvarchar" MaxLength="2" Nullable="false" />
+    <Property Name="AnnoVen" Type="nvarchar" MaxLength="2" Nullable="false" />
+    <Property Name="CVC" Type="nvarchar" MaxLength="4" Nullable="false" />
+    <Property Name="TipoTarjeta" Type="int" Nullable="false" />
+    <Property Name="IDCliente" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="CedulaCliente" Type="nvarchar" MaxLength="12" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TipoEvento">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TipoTarjeta">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Zona">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Boleto_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+    <End Role="Boleto" Type="Self.Boleto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="CodigoCliente" />
+        <PropertyRef Name="Cedula" />
+      </Principal>
+      <Dependent Role="Boleto">
+        <PropertyRef Name="IDCliente" />
+        <PropertyRef Name="CedulaCliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Boleto_EventoPrecio">
+    <End Role="EventoPrecio" Type="Self.EventoPrecio" Multiplicity="1" />
+    <End Role="Boleto" Type="Self.Boleto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EventoPrecio">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Boleto">
+        <PropertyRef Name="IDEventoPrecio" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Boleto_Lugar">
+    <End Role="Lugar" Type="Self.Lugar" Multiplicity="1" />
+    <End Role="Boleto" Type="Self.Boleto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lugar">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Boleto">
+        <PropertyRef Name="IDLugar" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DireccionEmpleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="DireccionEmpleado" Type="Self.DireccionEmpleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="Cedula" />
+      </Principal>
+      <Dependent Role="DireccionEmpleado">
+        <PropertyRef Name="IDEmpleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmpleadoPerfil_Empleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="EmpleadoPerfil" Type="Self.EmpleadoPerfil" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="Cedula" />
+      </Principal>
+      <Dependent Role="EmpleadoPerfil">
+        <PropertyRef Name="IDEmpleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmpleadoPerfil_Perfil">
+    <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
+    <End Role="EmpleadoPerfil" Type="Self.EmpleadoPerfil" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Perfil">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EmpleadoPerfil">
+        <PropertyRef Name="IDPerfil" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EventoPrecio_Evento">
+    <End Role="Evento" Type="Self.Evento" Multiplicity="1" />
+    <End Role="EventoPrecio" Type="Self.EventoPrecio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Evento">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EventoPrecio">
+        <PropertyRef Name="IDEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EventoPrecio_Zona">
+    <End Role="Zona" Type="Self.Zona" Multiplicity="1" />
+    <End Role="EventoPrecio" Type="Self.EventoPrecio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Zona">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EventoPrecio">
+        <PropertyRef Name="IDZona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FacturaBoleto">
+    <End Role="Boleto" Type="Self.Boleto" Multiplicity="1" />
+    <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Boleto">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Factura">
+        <PropertyRef Name="IDBoleto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LugarEvento">
+    <End Role="LugarEvento" Type="Self.LugarEvento" Multiplicity="1" />
+    <End Role="Evento" Type="Self.Evento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="LugarEvento">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Evento">
+        <PropertyRef Name="LugarEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LugarZona">
+    <End Role="Zona" Type="Self.Zona" Multiplicity="1" />
+    <End Role="Lugar" Type="Self.Lugar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Zona">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Lugar">
+        <PropertyRef Name="IDZona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tarjeta_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+    <End Role="Tarjeta" Type="Self.Tarjeta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="CodigoCliente" />
+        <PropertyRef Name="Cedula" />
+      </Principal>
+      <Dependent Role="Tarjeta">
+        <PropertyRef Name="IDCliente" />
+        <PropertyRef Name="CedulaCliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TelefonoEmpleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="EmpleadoTelefono" Type="Self.EmpleadoTelefono" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="Cedula" />
+      </Principal>
+      <Dependent Role="EmpleadoTelefono">
+        <PropertyRef Name="IDEmpleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TipoEvento">
+    <End Role="TipoEvento" Type="Self.TipoEvento" Multiplicity="1" />
+    <End Role="Evento" Type="Self.Evento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoEvento">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Evento">
+        <PropertyRef Name="TipoEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TipoTarjeta">
+    <End Role="TipoTarjeta" Type="Self.TipoTarjeta" Multiplicity="1" />
+    <End Role="Tarjeta" Type="Self.Tarjeta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoTarjeta">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Tarjeta">
+        <PropertyRef Name="TipoTarjeta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SIST_BDModelStoreContainer">
+    <EntitySet Name="Boleto" EntityType="Self.Boleto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DireccionEmpleado" EntityType="Self.DireccionEmpleado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmpleadoPerfil" EntityType="Self.EmpleadoPerfil" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmpleadoTelefono" EntityType="Self.EmpleadoTelefono" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Evento" EntityType="Self.Evento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EventoPrecio" EntityType="Self.EventoPrecio" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Factura" EntityType="Self.Factura" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Lugar" EntityType="Self.Lugar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LugarEvento" EntityType="Self.LugarEvento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Perfil" EntityType="Self.Perfil" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoEvento" EntityType="Self.TipoEvento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoTarjeta" EntityType="Self.TipoTarjeta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Zona" EntityType="Self.Zona" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tarjeta" EntityType="Self.Tarjeta" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Tarjeta].[Numero] AS [Numero], 
+    [Tarjeta].[MesVen] AS [MesVen], 
+    [Tarjeta].[AnnoVen] AS [AnnoVen], 
+    [Tarjeta].[CVC] AS [CVC], 
+    [Tarjeta].[TipoTarjeta] AS [TipoTarjeta], 
+    [Tarjeta].[IDCliente] AS [IDCliente], 
+    [Tarjeta].[CedulaCliente] AS [CedulaCliente]
+    FROM [dbo].[Tarjeta] AS [Tarjeta]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Boleto_Cliente" Association="Self.FK_Boleto_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Boleto" EntitySet="Boleto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Boleto_EventoPrecio" Association="Self.FK_Boleto_EventoPrecio">
+      <End Role="EventoPrecio" EntitySet="EventoPrecio" />
+      <End Role="Boleto" EntitySet="Boleto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Boleto_Lugar" Association="Self.FK_Boleto_Lugar">
+      <End Role="Lugar" EntitySet="Lugar" />
+      <End Role="Boleto" EntitySet="Boleto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DireccionEmpleado" Association="Self.FK_DireccionEmpleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="DireccionEmpleado" EntitySet="DireccionEmpleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmpleadoPerfil_Empleado" Association="Self.FK_EmpleadoPerfil_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="EmpleadoPerfil" EntitySet="EmpleadoPerfil" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmpleadoPerfil_Perfil" Association="Self.FK_EmpleadoPerfil_Perfil">
+      <End Role="Perfil" EntitySet="Perfil" />
+      <End Role="EmpleadoPerfil" EntitySet="EmpleadoPerfil" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EventoPrecio_Evento" Association="Self.FK_EventoPrecio_Evento">
+      <End Role="Evento" EntitySet="Evento" />
+      <End Role="EventoPrecio" EntitySet="EventoPrecio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EventoPrecio_Zona" Association="Self.FK_EventoPrecio_Zona">
+      <End Role="Zona" EntitySet="Zona" />
+      <End Role="EventoPrecio" EntitySet="EventoPrecio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FacturaBoleto" Association="Self.FK_FacturaBoleto">
+      <End Role="Boleto" EntitySet="Boleto" />
+      <End Role="Factura" EntitySet="Factura" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LugarEvento" Association="Self.FK_LugarEvento">
+      <End Role="LugarEvento" EntitySet="LugarEvento" />
+      <End Role="Evento" EntitySet="Evento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LugarZona" Association="Self.FK_LugarZona">
+      <End Role="Zona" EntitySet="Zona" />
+      <End Role="Lugar" EntitySet="Lugar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tarjeta_Cliente" Association="Self.FK_Tarjeta_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Tarjeta" EntitySet="Tarjeta" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TelefonoEmpleado" Association="Self.FK_TelefonoEmpleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="EmpleadoTelefono" EntitySet="EmpleadoTelefono" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TipoEvento" Association="Self.FK_TipoEvento">
+      <End Role="TipoEvento" EntitySet="TipoEvento" />
+      <End Role="Evento" EntitySet="Evento" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TipoTarjeta" Association="Self.FK_TipoTarjeta">
+      <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
+      <End Role="Tarjeta" EntitySet="Tarjeta" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

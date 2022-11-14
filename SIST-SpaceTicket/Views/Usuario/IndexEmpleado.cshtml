@@ -1,0 +1,524 @@
+﻿@using Infraestructure.Models.Catalogo
+@model Infraestructure.Models.Catalogo.Empleado
+@{
+    ViewBag.Title = "Mantenimiento de Empleados";
+}
+@*Script para mensajes con swal*@
+<script src="~/Scripts/sweetalert2.js"></script>
+@*GLOBALIZACION DEL LA VISTA*@
+<script src="@Url.Action("CldrData", "Home", new { t = CldrDataScriptBuilder.GetCacheParam() })"></script>
+<script src="~/Scripts/devextreme/localization/dx.messages.es.js"></script>
+
+<style>
+    table {
+        font-weight: bolder !important;
+    }
+</style>
+
+<h2 style="text-align: center; margin: 1rem 0;">@ViewBag.Title</h2>
+
+
+<form id="facturar">
+
+    @(Html.DevExtreme().DataGrid<Empleado>()
+    .ID("gridContainer")  //Nombre del Grid
+    .ShowBorders(true) //Muestra los bordes
+    .ColumnMinWidth(50) //Valor mínimo para las columnas de 50
+    .FilterRow(f => f.Visible(true)) //Crear filtros en la parte superior
+    .FilterPanel(f => f.Visible(true)) //Habilitar Panel de filtro
+    .HeaderFilter(f => f.Visible(true)) //Filtro en el encabezado
+    .GroupPanel(p => p.Visible(true)) //Agrupacion panel
+    .Grouping(g => g.AutoExpandAll(false)) //Agrupacion autoexpandible
+    .ColumnAutoWidth(true) //AutoIncrementar tamaño de las columnas
+    .RemoteOperations(true) //Acciones de operacion remoto
+    .ColumnHidingEnabled(true) //Si la cantidad de controles no se adaptan a la pantalla se hace responsive
+    .AllowColumnReordering(true)
+    .OnRowInserted("OnInsertRow")
+    .OnRowUpdated("OnUpdateRow")
+    .OnEditingStart("verRegistro")
+    .SearchPanel(searchPanel => searchPanel.Visible(true))
+    .OnExporting("exporting")  //Permite Exportar según funcion indicada abajo
+    .Export(e => e.Enabled(true).AllowExportSelectedData(true)) //Permite exportar según lo seleccionado
+    .Selection(s => s.Mode(SelectionMode.Multiple))  //Permite Seleccionar varios items
+    .RowAlternationEnabled(true) //Filas con color alternado en el grid
+    //.OnEditorPreparing("onEditorPreparing")
+
+     .DataSource(d => d.Mvc().Controller("Usuario")
+        .LoadAction("GetEmpleado")  //Las acciones de consultar estarán en el metodo GET del controller indicado
+        .UpdateAction("PutEmpleado")  //Las acciones de modificar estarán en el metodo PUT del controller indicado
+        .InsertAction("PostEmpleado")  //Las acciones de eliminar estarán en el metodo PUT del controller indicado
+        .Key("Cedula")   //La llave dentro del campo del grid será el indicado
+    )
+    .Columns(columns => {
+
+        //Cedula
+        columns.AddFor(m => m.Cedula)
+        .FormItem(f =>
+        f.Editor(e => e.TextBox().MaxLength(12)) //Obtiene caracteristicas del Editor
+        .IsRequired(true) //Es requerido
+        );
+
+        //Nombre
+        columns.AddFor(m => m.Nombre)
+        .FormItem(f =>
+        f.Editor(e => e.TextBox().MaxLength(15)) //Obtiene caracteristicas del Editor
+        .IsRequired(true) //Es requerido
+        );
+
+        //Apellido 1
+        columns.AddFor(m => m.Apellido1)
+        .FormItem(f =>
+        f.Editor(e => e.TextBox().MaxLength(15)) //Obtiene caracteristicas del Editor
+        .IsRequired(true) //Es requerido
+        );
+
+        //Apellido 2
+        columns.AddFor(m => m.Apellido2)
+        .FormItem(f =>
+        f.Editor(e => e.TextBox().MaxLength(15)) //Obtiene caracteristicas del Editor
+        .IsRequired(true) //Es requerido
+        );
+
+        //Correo
+        columns.AddFor(m => m.Correo)
+        .FormItem(f =>
+        f.Editor(e => e.TextBox().MaxLength(150).Mode(TextBoxMode.Email)) //Obtiene caracteristicas del Editor
+        .IsRequired(true) //Es requerido
+        );
+
+        //contraseña
+        columns.AddFor(m => m.Contrasenna).Visible(false)
+        .FormItem(f =>
+        f.Editor(e => e.TextBox().MaxLength(int.MaxValue).Mode(TextBoxMode.Password)) //Obtiene caracteristicas del Editor
+        .IsRequired(true) //Es requerido
+        );
+
+        //ESTADO
+        columns.AddFor(m => m.Estado)
+            .Width(200)   //Tamaño de la columna
+            .SetCellValue("setValue") //Setear un valor en el selectBox envía value por default como parametro
+            .Lookup(lookup => lookup
+            .DataSource(Enum.GetNames(typeof(TypeEstado))) //Se asocia a los datos de la enumeracion de Estado
+            );
+
+        ////BOTONES
+        //columns.Add()
+        //    .DataField("")
+        //    .Type(GridCommandColumnType.Buttons)
+        //    .Width(100)
+        //    .Buttons(b =>
+        //    {
+        //        b.Add().Name(GridColumnButtonName.Edit); //Al botón de editar se le cambio el icono por uno de find.
+        //        b.Add().Name(GridColumnButtonName.Delete);
+        //        b.Add()  //Se agrega boton nuevo
+        //            .Hint("Generar Factura")  //Mensaje
+        //            .Icon("todo") //Icono de todo
+        //            .Visible(new JS("isVisible"))  //Llama funcion que retorna true o false
+        //            .OnClick(string.Format("function(e){{onFacturar(e);}}")); //Llama metodo que Activa
+
+        //        b.Add()  //Se agrega boton nuevo
+        //         .Hint("Generar PDF")  //Mensaje
+        //         .Icon("print") //Icono de todo
+        //         .Visible(new JS("isImprimible"))  //Llama funcion que retorna true o false
+        //         .OnClick(string.Format("function(e){{print(e);}}")); //Llama metodo que Activa
+
+
+        //        b.Add()  //Se agrega boton nuevo
+        //         .Hint("Enviar Correo")  //Mensaje
+        //         .Icon("email") //Icono de todo
+        //         .Visible(new JS("isImprimible"))  //Llama funcion que retorna true o false
+        //         .OnClick(string.Format("function(e){{sendFactura(e);}}")); //Llama metodo que Activa
+
+        //    });
+    })
+    .Paging(p => p.PageSize(10)) //Paginacion por defecto en 10
+     .Pager(pager =>
+     {
+         pager.Visible(true);   //Paginacion visible
+         pager.ShowPageSizeSelector(true); //Mostrar selector de paginas
+         pager.AllowedPageSizes(new JS("[5, 10, 25, 50, 100]")); //Cuadro de opciones para mostrar los datos de la pagina
+         pager.ShowInfo(true); //Mostrar informacion de registros
+         pager.ShowNavigationButtons(true); //Mostrar botones de navegacion de las paginas
+     })
+    .Editing(editing =>
+    {
+        editing.Mode(GridEditMode.Popup).Popup(x => x.Title("Facturación").ShowTitle(true));   //Vista en PopUp | Form | Cell | Batch
+        editing.AllowAdding(true);   //Permitir visible boton de agregar
+        editing.AllowUpdating(true); //Permitir visible boton de actualizar
+        editing.UseIcons(true);      //Utilizar iconos en lugar de los nombres
+        editing.Form(f => f.LabelLocation(FormLabelLocation.Top).ColCount(1).Items(items =>
+        {
+            items.AddTabbed().ColSpan(0)  //Agregar Pestañas al momento de editar
+            .Tabs(tabs =>
+            {
+                tabs.Add().Title("Datos")  //Nombre de la pestaña
+        .Items(tabItems =>
+        {
+            tabItems.AddGroup().Caption("Datos").ColCount(2)  //Cantidad de columnas que posee la pestaña
+    .Items(groupItems =>
+    {
+        //Se agregan los campos en la pestaña a mostrar
+        groupItems.AddSimpleFor(m => m.Cedula);
+        groupItems.AddSimpleFor(m => m.Nombre);
+        groupItems.AddSimpleFor(m => m.Apellido1);
+        groupItems.AddSimpleFor(m => m.Apellido2);
+        groupItems.AddSimpleFor(m => m.Correo);
+        groupItems.AddSimpleFor(m => m.Contrasenna);
+        groupItems.AddSimpleFor(m => m.Estado);
+    }); //Cierra el groupItems
+        });//Cierre el tabItems
+            });//Cierra el tabs
+        }));//Cierra el Items
+    })
+    //Seccion de resument
+    .Summary(s => s
+    .TotalItems(totalItems =>
+    {
+        totalItems.AddFor(m => m.Cedula).SummaryType(SummaryType.Count);
+    })
+    .GroupItems(groupItems =>
+    {
+        groupItems.Add().SummaryType(SummaryType.Count);
+    })
+    ).OnDataErrorOccurred("onDataErrorOccurred")
+    //******************************* MUESTRA EL EXPAND PARA EL GRID SECUNDARIO ******************************
+    .MasterDetail(md => {
+    md.Enabled(true);
+    md.Template(@<text>
+                  <div class="master-detail-caption"><h4><b>Teléfonos: <%- data.Cedula + " - " + data.Nombre + " "+ data.Apellido1%></b></h4></div>
+                       @(Html.DevExtreme().DataGrid<EmpleadoTelefono>()
+                        .ID(new JS("data.Cedula"))  //Nombre del Grid
+                        .ShowBorders(true) //Muestra los bordes
+                        .ColumnMinWidth(50) //Valor mínimo para las columnas de 50
+                        .ColumnAutoWidth(true) //AutoIncrementar tamaño de las columnas
+                        .RemoteOperations(true) //Acciones de operacion remoto
+                        .ColumnHidingEnabled(true) //Si la cantidad de controles no se adaptan a la pantalla se hace responsive
+                        .AllowColumnReordering(true)
+                        .OnRowInserted("OnInsertRow")
+                        .OnRowUpdated("OnUpdateRow")
+                        .OnExporting("exporting")  //Permite Exportar según funcion indicada abajo
+                        .Export(e => e.Enabled(true).AllowExportSelectedData(true)) //Permite exportar según lo seleccionado
+                        .Selection(s => s.Mode(SelectionMode.Multiple))  //Permite Seleccionar varios items
+                        .RowAlternationEnabled(true) //Filas con color alternado en el grid
+                                                     //    .OnInitialized(string.Format("function(e){{onAgregar(e,{0});}}", new JS("data.Cedula")))
+                        .OnInitNewRow(string.Format("function(e){{iniciarRegistro(e,{0});}}", new JS("data.Cedula")))
+                        .DataSource(d => d.Mvc().Controller("Telefono")
+                            .LoadAction("Get")  //Las acciones de consultar estarán en el metodo PUT del controller indicado
+                            .UpdateAction("Put")  //Las acciones de modificar estarán en el metodo PUT del controller indicado
+                            .InsertAction("Post")  //Las acciones de insertar estarán en el metodo PUT del controller indicado
+                            .DeleteAction("Delete")    //Las acciones de eliminar estarán en el metodo PUT del controller indicado
+                            .Key(new string[] { "ID", "IDEmpleado" })   //La llave dentro del campo del grid será el indicado
+                            .LoadParams(new { IDEmpleado = new JS("data.Cedula") })
+                            //.Key("Secuencia")   //La llave dentro del campo del grid será el indicado
+                        )
+                        .Columns(columns => {
+                            //Secuencia
+                            columns.AddFor(m => m.ID)
+                            .Visible(false)  //No es visible en el grid principal
+                            .AllowEditing(false) //Al ser editado no se le permite
+                            .FormItem(f=>f.Visible(false).IsRequired(false) //No se muestra en la edición
+                            ).Alignment(HorizontalAlignment.Left);
+
+                            //Telefono
+                            columns.AddFor(m => m.Telefono)
+                            .Visible(true)  //No es visible en el grid principal
+                            .AllowEditing(true) //Al ser editado no se le permite
+                            .FormItem(f => f.Visible(true) //No se muestra en la edición
+                            ).Alignment(HorizontalAlignment.Left);
+
+                        })
+                        .Paging(p => p.PageSize(5)) //Paginacion por defecto en 10
+                        .Pager(pager =>
+                        {
+                            pager.Visible(true);   //Paginacion visible
+                            pager.ShowInfo(true); //Mostrar informacion de registros
+                            pager.ShowNavigationButtons(true); //Mostrar botones de navegacion de las paginas
+                        })
+                        .Editing(editing =>
+                        {
+                            editing.Mode(GridEditMode.Popup).Popup(x => x.Title("Teléfono Detalle").ShowTitle(true));   //Vista en PopUp | Form | Cell | Batch
+                            editing.AllowAdding(true);   //Permitir visible boton de agregar
+                            editing.AllowDeleting(true); //Permitir visible boton de eliminar
+                            editing.AllowUpdating(true); //Permitir visible boton de actualizar
+                            editing.UseIcons(true);      //Utilizar iconos en lugar de los nombres
+                            editing.Form(f => f.LabelLocation(FormLabelLocation.Top).ColCount(1).Items(items =>
+                            {
+                                items.AddTabbed().ColSpan(0)  //Agregar Pestañas al momento de editar
+                                .Tabs(tabs =>
+                                {
+                                    tabs.Add().Title("Datos")  //Nombre de la pestaña
+                                    .Items(tabItems =>
+                                    {
+                                        tabItems.AddGroup().Caption("Datos").ColCount(2)  //Cantidad de columnas que posee la pestaña
+                                        .Items(groupItems =>
+                                        {
+                                            //Se agregan los campos en la pestaña a mostrar
+                                            groupItems.AddSimpleFor(m => m.ID).Visible(false);
+                                            groupItems.AddSimpleFor(m => m.Telefono);
+                                        }); //Cierra el groupItems
+
+                                    });//Cierre el tabItems
+                                });//Cierra el tabs
+                            }));//Cierra el Items
+                        })
+                        //Seccion de resument
+                        .Summary(s => s
+                        .TotalItems(totalItems =>
+                        {
+                            totalItems.AddFor(m => m.ID).SummaryType(SummaryType.Count);  })
+                        .GroupItems(groupItems =>
+                        {
+                            groupItems.Add().SummaryType(SummaryType.Count);
+                        })
+                        ).OnDataErrorOccurred("onDataErrorOccurred")
+                        )
+
+
+                        @* Grid de perfiles*@
+                        <div class="master-detail-caption"><h4><b>Perfil: <%- data.Cedula + " - " + data.Nombre + " "+ data.Apellido1%></b></h4></div>
+                       @(Html.DevExtreme().DataGrid<EmpleadoPerfil>()
+                        .ID("perfi"+ new JS("data.Cedula"))  //Nombre del Grid
+                        .ShowBorders(true) //Muestra los bordes
+                                           //.ColumnMinWidth(10) //Valor mínimo para las columnas de 50
+                                           //.ColumnAutoWidth(true) //AutoIncrementar tamaño de las columnas
+                        .RemoteOperations(true) //Acciones de operacion remoto
+                        .ColumnHidingEnabled(true) //Si la cantidad de controles no se adaptan a la pantalla se hace responsive
+                        .AllowColumnReordering(true)
+                        .OnRowInserted("OnInsertRow")
+                        .OnRowUpdated("OnUpdateRow")
+                        .OnExporting("exporting")  //Permite Exportar según funcion indicada abajo
+                        .Export(e => e.Enabled(true).AllowExportSelectedData(true)) //Permite exportar según lo seleccionado
+                        .Selection(s => s.Mode(SelectionMode.Multiple))  //Permite Seleccionar varios items
+                        .RowAlternationEnabled(true) //Filas con color alternado en el grid
+                                                     // .OnInitialized(string.Format("function(e){{onAgregarPerfil(e,{0});}}", new JS("data.Cedula")))
+                        .OnInitNewRow(string.Format("function(e){{iniciarRegistroPerfil(e,{0});}}", new JS("data.Cedula")))
+                        .DataSource(d => d.Mvc().Controller("Perfil")
+                            .LoadAction("Get")  //Las acciones de consultar estarán en el metodo PUT del controller indicado
+                            .UpdateAction("Put")  //Las acciones de modificar estarán en el metodo PUT del controller indicado
+                            .InsertAction("Post")  //Las acciones de insertar estarán en el metodo PUT del controller indicado
+                            .DeleteAction("Delete")    //Las acciones de eliminar estarán en el metodo PUT del controller indicado
+                              .Key(new string[] { "ID", "IDEmpleado" })   //La llave dentro del campo del grid será el indicado
+                            .LoadParams(new { IDEmpleado = new JS("data.Cedula") })
+                        //.Key("Secuencia")   //La llave dentro del campo del grid será el indicado
+                        )
+                        .Columns(columns => {
+                            //Secuencia
+                            columns.AddFor(m => m.ID).Width(100)
+                            .Visible(false)  //No es visible en el grid principal
+                            .AllowEditing(false) //Al ser editado no se le permite
+                            .FormItem(f=>f.Visible(false).IsRequired(false) //No se muestra en la edición
+                            ).Alignment(HorizontalAlignment.Left);
+
+                            //Telefono
+                            columns.AddFor(m => m.IDPerfil).Lookup(lookup => lookup
+                            .DataSource(w => w.WebApi().RouteName("perfiles")).ValueExpr("ID").DisplayExpr("Descripcion"))
+                            .Visible(true)  //No es visible en el grid principal
+                            .AllowEditing(true) //Al ser editado no se le permite
+                            .FormItem(f => f.Visible(true) //No se muestra en la edición
+                            ).Alignment(HorizontalAlignment.Left);
+
+                        })
+                        .Paging(p => p.PageSize(5)) //Paginacion por defecto en 10
+                        .Pager(pager =>
+                        {
+                            pager.Visible(true);   //Paginacion visible
+                            pager.ShowInfo(true); //Mostrar informacion de registros
+                            pager.ShowNavigationButtons(true); //Mostrar botones de navegacion de las paginas
+                        })
+                        .Editing(editing =>
+                        {
+                            editing.Mode(GridEditMode.Popup).Popup(x => x.Title("Perfil Detalle").ShowTitle(true));   //Vista en PopUp | Form | Cell | Batch
+                            editing.AllowAdding(true);   //Permitir visible boton de agregar
+                            editing.AllowDeleting(true); //Permitir visible boton de eliminar
+                            editing.AllowUpdating(false); //Permitir visible boton de actualizar
+                            editing.UseIcons(true);      //Utilizar iconos en lugar de los nombres
+                            editing.Form(f => f.LabelLocation(FormLabelLocation.Top).ColCount(1).Items(items =>
+                            {
+                                items.AddTabbed().ColSpan(0)  //Agregar Pestañas al momento de editar
+                                .Tabs(tabs =>
+                                {
+                                    tabs.Add().Title("Datos")  //Nombre de la pestaña
+                                    .Items(tabItems =>
+                                    {
+                                        tabItems.AddGroup().Caption("Datos").ColCount(2)  //Cantidad de columnas que posee la pestaña
+                                        .Items(groupItems =>
+                                        {
+                                            //Se agregan los campos en la pestaña a mostrar
+                                            groupItems.AddSimpleFor(m => m.ID).Visible(false);
+                                            groupItems.AddSimpleFor(m => m.IDPerfil);
+                                        }); //Cierra el groupItems
+
+                                    });//Cierre el tabItems
+                                });//Cierra el tabs
+                            }));//Cierra el Items
+                        })
+                        //Seccion de resument
+                        .Summary(s => s
+                        .TotalItems(totalItems =>
+                        {
+                            totalItems.AddFor(m => m.ID).SummaryType(SummaryType.Count);  })
+                        .GroupItems(groupItems =>
+                        {
+                            groupItems.Add().SummaryType(SummaryType.Count);
+                        })
+                        ).OnDataErrorOccurred("onDataErrorOccurred")
+                        )
+
+
+            </text>);
+    })//Fin del Master Details
+
+    )
+</form>
+
+<script>
+        // SETEA EL VALOR DE ESTADO
+        function setValue(e, value) {
+            e.Estado = value;
+        }
+      //CAPTURA UN ERROR EN CASO DE EXISTIR
+        function onDataErrorOccurred(e) {
+            var msg = e.error.message
+            console.log(e);
+
+            Swal.fire({
+                title: 'Atención',
+                text: msg,
+                icon: 'error',
+                timerProgressBar: true,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+
+    //PERMITE EXPORTAR EL CONTENIDO DE UN DATA GRID
+    function exporting(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Facturas'); //cambiar el nombre de la hoja del archivo excel
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Facturas.xlsx'); //Cambiar nombre como se va a llamar el archivo
+            });
+        });
+        e.cancel = true;
+     }
+
+    function onEditorPreparing(e) {
+        if (e.parentType === "dataRow") {
+            e.editorOptions.disabled = (e.row.data.Cedula !== undefined);
+        }
+    }
+
+    function verRegistro(e) {
+        var grid = $("#gridContainer").dxDataGrid('instance');
+        var columns = grid.option("columns");
+        grid.beginUpdate();
+        columns.forEach(function (column) {
+            var nombreCampo = column.dataField;
+            if (nombreCampo == "Cedula") {
+                grid.columnOption(nombreCampo, "allowEditing", false);
+            } else {
+                grid.columnOption(nombreCampo, "allowEditing", true);
+            }
+        });
+        grid.endUpdate();
+    }
+
+      //Pertenece a los detalles
+      //Metodo que acciona unos valores cargados por default
+    function iniciarRegistro(e, Cedula) {
+        e.data.IDEmpleado = Cedula;
+    }
+
+    function iniciarRegistroPerfil(e, Cedula) {
+        e.data.IDEmpleado = Cedula;
+    }
+
+        //metodo que invoka el llamado de un controller, si esta en estado pendiente entonces se procede a activar todo caso contrario lo inactiva
+    function onAgregar(e, valor, idGrid) {
+        //alert(valor);
+        var nombreGrid = "#" + idGrid;
+        var grid = $(nombreGrid).dxDataGrid('instance');
+        //alert(valor);
+        //Se consulta el valor del asiento Padre
+        var datos = null;
+        $.ajax({
+            url: '@Url.Action("GetEmpleadoTelefonoByIDEmpleado", "Telefono")' + '?IDEmpleado=' + valor,
+                    async: false,
+                    success: function (response) {
+                    datos = response;
+                }
+        });
+    }
+
+    function onAgregarPerfil(e, valor, idGrid) {
+        //alert(valor);
+        var nombreGrid = "#" + idGrid;
+        var grid = $(nombreGrid).dxDataGrid('instance');
+        //alert(valor);
+        //Se consulta el valor del asiento Padre
+        var datos = null;
+        $.ajax({
+            url: '@Url.Action("GetEmpleadoPerfilByIDEmpleado", "Perfil")' + '?IDEmpleado=' + valor,
+                    async: false,
+                    success: function (response) {
+                    datos = response;
+                }
+        });
+        }
+
+        //Metodo que trae los valores concatenados con un pipe (|) de la cantidad y precio
+        //Método que calcula el impuesto, total linea y cantidad registrada
+
+
+
+    function OnInsertRow(e) {
+        Swal.fire({
+            title: 'Enhorabuena',
+            text: "Registro grabado correctamente",
+            icon: 'success',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+
+    function OnUpdateRow(e) {
+        Swal.fire({
+            title: 'Enhorabuena',
+            text: "Registro modificado correctamente",
+            icon: 'success',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+
+    function OnDataErrorOccurred(e) {
+        //console.log("OnDataErrorOccurred");
+        var msg = e.error.message
+        console.log(e);
+
+        Swal.fire({
+            title: 'Oops',
+            text: msg,
+            icon: 'error',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+</script>
+
+
+@*cambiar el idioma de los datebox*@
+<script src="~/js/devextreme/localization/dx.messages.de.js"></script>
+<script src="~/js/devextreme/localization/dx.messages.es.js"></script>
+<script>
+    DevExpress.localization.locale("es");
+</script>

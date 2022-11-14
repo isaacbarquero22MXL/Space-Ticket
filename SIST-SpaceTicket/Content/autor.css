@@ -1,0 +1,241 @@
+﻿
+html {
+    overflow-x: hidden;
+    background-color: black;
+}
+
+.main{
+    background: #000;
+    color: white !important;
+}
+
+.perfil {
+    margin: 0;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    width: 300px;
+    max-width: 700px;
+    height: 310px;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 2rem;
+    margin: auto;
+    transition: 0.5s;
+    margin-top: 30vh;
+    background: #F91233;
+}
+
+.footer{
+    padding-top: 8rem !important;
+}
+
+@keyframes shadow{
+    0% {
+        box-shadow: 0 0 10px rgba(249,51,18,.7);
+    }
+    100% {
+        box-shadow: 0 0 35px rgba(249,51,18,.7);
+    }
+}
+
+.card img {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 350px;
+    transition: 0.5s;
+    z-index: 500;
+    box-shadow: 0 0 50px rgba(249,51,18,.7);
+    border-radius: 2rem;
+    bottom: -5px;
+    object-fit: contain;
+    animation: shadow 2s infinite alternate;
+}
+
+    .card .contenido h2 {
+        padding-bottom: 15px;
+        font-size: 32px;
+        white-space: nowrap;
+        color: #FFF;
+    }
+
+    .card:hover {
+        height: 400px;
+        width: 415px;
+        box-shadow: 0 0 20px rgba(249,51,18,.7);
+    }
+
+
+#lstHR {
+    display: none;
+}
+
+.labelInfo {
+    position: absolute;
+    box-shadow: 0 0 30px rgba(255,255,255,.7);
+    border-radius: 20px;
+    padding: 20px;
+    width: fit-content;
+    opacity: 0;
+    transition: 0.5s;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    background-color: white;
+    color: #F91233 !important;
+    z-index: 100;
+}
+
+#label1, #label2 {
+    top: 0;
+    right: 0;
+}
+
+#label3, #label4 {
+    bottom: 0;
+    right: 0;
+}
+
+#label1 {
+    animation: flotar 1.5s ease-in-out infinite alternate;
+    animation-delay: 0.2s;
+}
+
+#label2 {
+    transition-delay: 0.8s;
+    animation: flotar2 1.5s ease-in-out infinite alternate;
+    animation-delay: 0.2s;
+}
+
+#label3 {
+    transition-delay: 0.6s;
+    animation: flotar3 1.5s ease-in-out infinite alternate;
+    animation-delay: 0.6s;
+}
+
+#label4 {
+    transition-delay: 1.2s;
+    animation: flotar4 1.5s ease-in-out infinite alternate;
+    animation-delay: 0.4s;
+}
+
+@keyframes flotar {
+    0% {
+        top: -190px;
+    }
+
+    100% {
+        top: -210px;
+    }
+}
+
+@keyframes flotar2 {
+    0% {
+        top: -170px;
+    }
+
+    100% {
+        top: -190px;
+    }
+}
+
+@keyframes flotar3 {
+    0% {
+        bottom: 150px;
+    }
+
+    100% {
+        bottom: 130px;
+    }
+}
+
+@keyframes flotar4 {
+    0% {
+        bottom: 50px;
+    }
+
+    100% {
+        bottom: 30px;
+    }
+}
+
+.card:hover #label1 {
+    top: -90px;
+    right: 15rem;
+}
+
+.card:hover #label2 {
+    top: -70px;
+    right: -25rem;
+}
+
+.card:hover #label3 {
+    bottom: 100px;
+    right: 35rem;
+}
+
+.card:hover #label4 {
+    bottom: 50px;
+    right: -30rem;
+}
+
+.card:hover .labelInfo {
+    opacity: 1;
+}
+
+
+@media (max-width: 992px) {
+ /*   .card {
+        position: relative;
+        max-width: 600px;
+        transition: 0.5s;
+        align-items: flex-start;
+        width: fit-content;
+    }
+
+    .card:hover {
+        height: 600px;
+        width: auto;
+    }
+
+    .card:hover img {
+        left: 50%;
+        height: 415px;
+    }
+
+    #contenidoPrincipal {
+        top: -35vh;
+    }
+
+    .card .contenido {
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .card:hover .contenido {
+        left: 0;
+    }
+
+    .card .contenido h2 {
+        padding-top: 15px;
+        font-size: 28px;
+    }
+
+    #lstHR {
+        display: block;
+    }
+
+    #label1, #label2, #label3, #label4 {
+        display: none;
+    }
+
+    .contenido p, .contenido hr {
+        display: block;
+    }*/
+}
+
+

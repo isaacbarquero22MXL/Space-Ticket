@@ -1,0 +1,248 @@
+﻿@model SIST_SpaceTicket.ViewModel.ViewModelDetalleFactura
+
+<link rel="stylesheet" href="~/Content/tarjeta.css">
+
+<h1 style="margin: 3rem 0; color: #F91233; text-align: center;">Detalle de compra</h1>
+<div class="cost-section">
+    <div class="cost-header">
+        <div class="cost-header-zone">
+            <div class="cost-header-title">Zona</div>
+            <div class="cost-header-zone">@Model.Zona.Descripcion</div>
+        </div>
+        <div class="cost-header-zone">
+            <div class="cost-header-title">Asientos</div>
+            <div class="cost-header-seat">
+                @{
+                    string asientos = "";
+                    foreach (var item in Model.ListaLugares)
+                    {
+                        asientos += item.Fila + "-" + item.NumeroAsiento + ", ";
+                    }
+
+                    asientos = asientos.Trim().Substring(0, asientos.Length - 2);
+                }
+                @asientos
+            </div>
+        </div>
+    </div>
+    <div>
+        <table class="cost-data">
+            <thead>
+                <tr>
+                    <th>CANTIDAD</th>
+                    <th colspan="2">PRECIO X BOLETO <br> (Precio x Boleto + Cargos administrativos)</th>
+                    <th>TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.ListaBoleto.Count</td>
+                    <td colspan="2">$@Model.Zona.Precio <br> ($@Model.ValorBoleto() + $@Model.ValorCostoAdministrativos())</td>
+                    <td>$@Model.TotalCompra()</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="contenedor">
+
+    <!-- Tarjeta -->
+    <section class="tarjeta" id="tarjeta">
+        <div class="delantera">
+            <div class="logo-marca" id="logo-marca">
+                <!-- <img src="img/logos/visa.png" alt=""> -->
+            </div>
+            <img src="~/Images/chip-tarjeta.png" class="chip" alt="">
+            <div class="datos">
+                <div class="grupo" id="numero">
+                    <p class="label">Número Tarjeta</p>
+                    <p class="numero">#### #### #### ####</p>
+                </div>
+                <div class="flexbox">
+                    <div class="grupo" id="nombre">
+                        <p class="label">Nombre Tarjeta</p>
+                        <p class="nombre">Jhon Doe</p>
+                    </div>
+
+                    <div class="grupo" id="expiracion">
+                        <p class="label">Expiracion</p>
+                        <p class="expiracion"><span class="mes">MM</span> / <span class="year">AA</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="trasera">
+            <div class="barra-magnetica"></div>
+            <div class="datos">
+                <div class="grupo" id="firma">
+                    <p class="label">Firma</p>
+                    <div class="firma"><p></p></div>
+                </div>
+                <div class="grupo" id="ccv">
+                    <p class="label">CCV</p>
+                    <p class="ccv"></p>
+                </div>
+            </div>
+            <p class="leyenda">Esta tarjeta es intransferible, de uso personal y exclusivo del titular. Su uso queda sujeto a las condiciones y términos estipulados en el contrato.</p>
+            <a href="#" class="link-banco">www.spaceticket.com</a>
+        </div>
+    </section>
+    <section class="tarjeta" id="tarjeta">
+        <div class="delantera">
+            <div class="logo-marca" id="logo-marca">
+                <img src="~/Images/logos/visa.png" alt="">
+            </div>
+            <img src="~/Images/chip-tarjeta.png" class="chip" alt="">
+            <div class="datos">
+                <div class="grupo" id="numero">
+                    <p class="label">Número Tarjeta</p>
+                    <p class="numero">#### #### #### ####</p>
+                </div>
+                <div class="flexbox">
+                    <div class="grupo" id="nombre">
+                        <p class="label">Nombre Tarjeta</p>
+                        <p class="nombre">Jhon Doe</p>
+                    </div>
+
+                    <div class="grupo" id="expiracion">
+                        <p class="label">Expiracion</p>
+                        <p class="expiracion"><span class="mes">MM</span> / <span class="year">AA</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="trasera">
+            <div class="barra-magnetica"></div>
+            <div class="datos">
+                <div class="grupo" id="firma">
+                    <p class="label">Firma</p>
+                    <div class="firma"><p></p></div>
+                </div>
+                <div class="grupo" id="ccv">
+                    <p class="label">CCV</p>
+                    <p class="ccv"></p>
+                </div>
+            </div>
+            <p class="leyenda">Esta tarjeta es intransferible, de uso personal y exclusivo del titular. Su uso queda sujeto a las condiciones y términos estipulados en el contrato. Su uso queda sujeto a las condiciones y términos estipulados en el contrato.</p>
+            <a href="#" class="link-banco">www.spaceticket.com</a>
+        </div>
+    </section>
+    <section class="tarjeta" id="tarjeta">
+        <div class="delantera">
+            <div class="logo-marca" id="logo-marca">
+                <img src="~/Images/logos/mastercard.png" alt="">
+            </div>
+            <img src="img/chip-tarjeta.png" class="chip" alt="">
+            <div class="datos">
+                <div class="grupo" id="numero">
+                    <p class="label">Número Tarjeta</p>
+                    <p class="numero">#### #### #### ####</p>
+                </div>
+                <div class="flexbox">
+                    <div class="grupo" id="nombre">
+                        <p class="label">Nombre Tarjeta</p>
+                        <p class="nombre">Jhon Doe</p>
+                    </div>
+
+                    <div class="grupo" id="expiracion">
+                        <p class="label">Expiracion</p>
+                        <p class="expiracion"><span class="mes">MM</span> / <span class="year">AA</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="trasera">
+            <div class="barra-magnetica"></div>
+            <div class="datos">
+                <div class="grupo" id="firma">
+                    <p class="label">Firma</p>
+                    <div class="firma"><p></p></div>
+                </div>
+                <div class="grupo" id="ccv">
+                    <p class="label">CCV</p>
+                    <p class="ccv"></p>
+                </div>
+            </div>
+            <p class="leyenda">Esta tarjeta es intransferible, de uso personal y exclusivo del titular. Su uso queda sujeto a las condiciones y términos estipulados en el contrato.</p>
+            <a href="#" class="link-banco">www.spaceticket.com</a>
+        </div>
+    </section>
+    <section class="tarjeta" id="tarjeta">
+        <div class="delantera">
+            <div class="logo-marca" id="logo-marca">
+                <img src="~/Images/logos/american.png" alt="">
+            </div>
+            <img src="~/Images/chip-tarjeta.png" class="chip" alt="">
+            <div class="datos">
+                <div class="grupo" id="numero">
+                    <p class="label">Número Tarjeta</p>
+                    <p class="numero">#### #### #### ####</p>
+                </div>
+                <div class="flexbox">
+                    <div class="grupo" id="nombre">
+                        <p class="label">Nombre Tarjeta</p>
+                        <p class="nombre">Jhon Doe</p>
+                    </div>
+
+                    <div class="grupo" id="expiracion">
+                        <p class="label">Expiracion</p>
+                        <p class="expiracion"><span class="mes">MM</span> / <span class="year">AA</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="trasera">
+            <div class="barra-magnetica"></div>
+            <div class="datos">
+                <div class="grupo" id="firma">
+                    <p class="label">Firma</p>
+                    <div class="firma"><p></p></div>
+                </div>
+                <div class="grupo" id="ccv">
+                    <p class="label">CCV</p>
+                    <p class="ccv"></p>
+                </div>
+            </div>
+            <p class="leyenda">Esta tarjeta es intransferible, de uso personal y exclusivo del titular. Su uso queda sujeto a las condiciones y términos estipulados en el contrato.</p>
+            <a href="#" class="link-banco">www.spaceticket.com</a>
+        </div>
+    </section>
+</div>
+<div>
+    @using (Html.BeginForm("RealizarPago", "Factura", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        using (Html.DevExtreme().ValidationGroup())
+        {
+            <div style="text-align: center;">
+                <h1 style="margin: 3rem 0;">Seleccione la tarjeta con la cuál realizará el pago</h1>
+                @(Html.DevExtreme().
+                SelectBoxFor(m => m.IDTarjeta).
+                DataSource(w => w.WebApi().RouteName("tarjetas")).
+                ValueExpr("ID").
+                DisplayExpr("Descripcion").
+                Name("IDTarjeta").
+                ID("IDTarjeta"))
+
+                <br><br><br><br>
+                @(Html.DevExtreme().
+                 Button().
+                 Text("Realizar pago").
+                 OnInitialized("OnButtonInitialized").
+                 Type(ButtonType.Success).
+                 UseSubmitBehavior(true))
+            </div>
+        }
+    }
+</div>
+<script>
+    function OnButtonInitialized(e) {
+        e.element.addClass("event-button")
+    }
+</script>
+
